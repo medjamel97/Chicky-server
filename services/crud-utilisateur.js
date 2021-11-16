@@ -3,7 +3,7 @@ module.exports = function (app) {
     const connectionString = "mongodb+srv://jamel:jamel@chickycluster.gc7pz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     const MongoClient = require('mongodb').MongoClient
 
-    app.get('/utilisateur/recuperer', (req, res) => {
+    app.get('/utilisateur', (req, res) => {
         console.log("Recuperation")
         MongoClient.connect(connectionString, (err, client) => {
             if (err) return console.error(err)
@@ -21,7 +21,7 @@ module.exports = function (app) {
         })
     })
 
-    app.get('/utilisateur/ajouter', (req, res) => {
+    app.post('/utilisateur', (req, res) => {
         console.log("Ajout")
         if (req.query['id']) {
             MongoClient.connect(connectionString, (err, client) => {
@@ -51,7 +51,7 @@ module.exports = function (app) {
     })
 
 
-    app.get('/utilisateur/modifier', (req, res) => {
+    app.get('/utilisateur', (req, res) => {
         console.log("Modification")
         if (req.query['id']) {
             MongoClient.connect(connectionString, (err, client) => {
@@ -87,7 +87,7 @@ module.exports = function (app) {
         }
     })
 
-    app.get('/utilisateur/supprimer', (req, res) => {
+    app.get('/utilisateur', (req, res) => {
         console.log("Suppression")
         if (req.query['id']) {
             MongoClient.connect(connectionString, (err, client) => {

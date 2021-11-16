@@ -3,13 +3,13 @@ module.exports = function (app) {
     const connectionString = "mongodb+srv://jamel:jamel@chickycluster.gc7pz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     const MongoClient = require('mongodb').MongoClient
 
-    app.get('/message', (req, res) => {
+    app.get('/commentaire', (req, res) => {
         console.log("Recuperation")
         MongoClient.connect(connectionString, (err, client) => {
             if (err) return console.error(err)
             console.log('Connected to Database')
             db = client.db('ChickyCluster')
-            db.collection('message').find().toArray()
+            db.collection('commentaire').find().toArray()
                 .then(result => {
                     console.log(result)
                     res.json(result)
@@ -21,16 +21,15 @@ module.exports = function (app) {
         })
     })
 
-    app.post('/message', (req, res) => {
+    app.post('/commentaire', (req, res) => {
         console.log("Ajout")
         if (req.query['id']) {
             MongoClient.connect(connectionString, (err, client) => {
                 if (err) return console.error(err)
 
                 db = client.db('ChickyCluster')
-                db.collection('message').insertOne({
+                db.collection('commentaire').insertOne({
                     _id: req.query['id'],
-                    contenu: req.query['contenu']
                 })
                     .then(result => {
                         console.log(result)
@@ -47,7 +46,7 @@ module.exports = function (app) {
     })
 
 
-    app.put('/message', (req, res) => {
+    app.get('/commentaire', (req, res) => {
         console.log("Modification")
         if (req.query['id']) {
             MongoClient.connect(connectionString, (err, client) => {
@@ -55,13 +54,12 @@ module.exports = function (app) {
                 console.log('Connected to Database')
 
                 db = client.db('ChickyCluster')
-                db.collection('message').findOneAndUpdate(
+                db.collection('commentaire').findOneAndUpdate(
                     {
                         _id: req.query['id']
                     },
                     {
                         $set: {
-                            contenu: req.query['contenu']
                         }
                     }
                 )
@@ -79,14 +77,14 @@ module.exports = function (app) {
         }
     })
 
-    app.delete('/message', (req, res) => {
+    app.get('/commentaire', (req, res) => {
         console.log("Suppression")
         if (req.query['id']) {
             MongoClient.connect(connectionString, (err, client) => {
                 if (err) return console.error(err)
 
                 db = client.db('ChickyCluster')
-                db.collection('message').deleteOne(
+                db.collection('commentaire').deleteOne(
                     {
                         _id: req.query['id']
                     }
