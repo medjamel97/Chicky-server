@@ -1,14 +1,41 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const port = 3000;
+const mongoose = require("mongoose");
+const port = process.env.PORT || 3000;
+const DBconfig = require("./config/DB");
+const bodyParser = require("body-parser");
+const Utilisateurs = require("./routes/Utilisateurs");
+var path = require("path");
 
-require('./services/crud-utilisateur')(app);
-require('./services/crud-message')(app);
+app.use(express.static(path.join(__dirname, "/uploads")));
+app.use("/uploads", express.static("./uploads"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.all('/*', function (req, res) {
-    res.send('Route inexistante')
-})
+app.use("/api.chicky.com/utilisateur", Utilisateurs);
 
-app.listen(port, function () {
-    console.log('listening on 3000')
-})
+mongoose.Promise = global.Promise;
+mongoose.connect(DBconfig.DB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(
+    (x) => {
+      console.log("Connecté a la base de données");
+    },
+    (err) => {
+      console.log("Connexion a la base de données echouée", err);
+    }
+  );
+
+if (process.env.NODE_ENV === "production") {
+  console.log("app in production mode");
+  app.use(express.static("client/build"));
+  app.get("/*", function (req, res) {
+    res.sendFile(
+      path.join(__dirname, "client", "build", "index.html"),
+      function (err) {
+        if (err) res.status(500).send(err);
+      }
+    );
+  });
+}
+
+app.listen(port, () => console.log(`Server up and running on port ${port} !`));
