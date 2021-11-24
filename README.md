@@ -22,7 +22,7 @@ Ce repo contient les fonctions a consommer par notre application iOS (chicky)
 * Utilisateur
 - Connexion (POST): <a href ="localhost:3000/api.chicky.com/utilisateur/connexion">localhost:3000/api.chicky.com/utilisateur/connexion</a>
 - Inscription (POST): <a href ="localhost:3000/api.chicky.com/utilisateur/inscription">localhost:3000/api.chicky.com/utilisateur/inscription</a>
-- /confirmation/:token (GET): <a href ="localhost:3000/api.chicky.com/confirmation/:token">localhost:3000/api.chicky.com/utilisateur/confirmation/:token</a>
+- Confirmation email (GET): <a href ="localhost:3000/api.chicky.com/confirmation/:token">localhost:3000/api.chicky.com/utilisateur/confirmation/:token</a>
 - ModifierProfil (PUT): <a href ="localhost:3000/api.chicky.com/modifierProfil">localhost:3000/api.chicky.com/utilisateur/modifierProfil</a>
 
 ## Auteurs
