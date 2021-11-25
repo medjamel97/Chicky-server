@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
+
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
-const DBconfig = require("./config/DB");
+const config = require("./config.json");
 const bodyParser = require("body-parser");
-const Utilisateurs = require("./routes/Utilisateurs");
 var path = require("path");
 
 app.use(express.static(path.join(__dirname, "/uploads")));
@@ -12,12 +12,22 @@ app.use("/uploads", express.static("./uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/api.chicky.com/utilisateur", Utilisateurs);
+const routeUtilisateur = require("./routes/utilisateur-route");
+const routePublication = require("./routes/publication-route");
+const routeCommentaire = require("./routes/commentaire-route");
+const routeConversation = require("./routes/conversation-route");
+const routeMessage = require("./routes/message-route");
+
+app.use("/api.chicky.com/utilisateur", routeUtilisateur);
+app.use("/api.chicky.com/publication", routePublication);
+app.use("/api.chicky.com/commentaire", routeCommentaire);
+app.use("/api.chicky.com/conversation", routeConversation);
+app.use("/api.chicky.com/message", routeMessage);
 
 mongoose.Promise = global.Promise;
-mongoose.connect(DBconfig.DB, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(
-    (x) => {
+    () => {
       console.log("Connecté a la base de données");
     },
     (err) => {

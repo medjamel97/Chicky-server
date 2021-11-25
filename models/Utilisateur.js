@@ -11,7 +11,13 @@ const UtilisateurSchema = new mongoose.Schema(
     idPhoto: { type: String },
     sexe: { type: Boolean },
     score: { type: Number },
-    bio: { type: String }
+    bio: { type: String },
+    isVerified: { type: Boolean },
+    // Relations
+    /*publication: {
+      type: mongoose.Types.ObjectId
+      ref: Publication
+    }*/
   },
   {
     timestamps: { currentTime: () => Date.now() },
