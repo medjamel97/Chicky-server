@@ -24,9 +24,6 @@ var upload = multer({ storage: storage }).any;
 //----------------------------------------------------
 
 exports.recupererUtilisateurs = async (req, res) => {
-  console.log("body");
-  const { email, mdp } = req.body;
-
   const utilisateurs = await Utilisateur.find({});
 
   if (utilisateurs) {
@@ -74,6 +71,38 @@ exports.inscription = async (req, res) => {
 
     sendConfirmationEmail(email, token);
     res.status(201).send({ message: "success", utilisateur: nouveauUtilisateur, "Token": jwt.verify(token, config.token_secret) });
+  }
+};
+
+exports.verifierConfirmationEmail = async (req, res) => {
+  const utilisateur = await Utilisateur.findOne({ "email": req.body.email });
+
+  if (utilisateur) {
+    if (utilisateur.isVerified) {
+      res.status(200).send({ utilisateur, message: "utilisateur verifié" });
+    } else {
+      res.status(403).send({ utilisateur, message: "Utilisateur non verifié" });
+    }
+  } else {
+    res.status(404).send({ message: "Utilisateur innexistant" })
+  }
+
+};
+
+exports.reEnvoyerConfirmationEmail = async (req, res) => {
+  const utilisateur = await Utilisateur.findOne({ "email": req.body.email });
+
+  if (utilisateur) {
+    // token creation
+    const token = jwt.sign({ _id: utilisateur._id, email: utilisateur.email, role: Role.User }, config.token_secret, {
+      expiresIn: "60000", // in Milliseconds (3600000 = 1 hour)
+    });
+
+    sendConfirmationEmail(req.body.email, token);
+
+    res.status(200).send({ "message": "L\'email de confirmation a été envoyé a " + utilisateur.email })
+  } else {
+    res.status(404).send({ message: "Utilisateur innexistant" })
   }
 };
 
@@ -151,14 +180,20 @@ exports.connexion = async (req, res) => {
   const utilisateur = await Utilisateur.findOne({ email });
 
   if (utilisateur && (await bcypt.compare(mdp, utilisateur.mdp))) {
-    const token = jwt.sign({ id: utilisateur._id, email }, jwtsecret.token_secret, {
+    const token = jwt.sign({ id: utilisateur._id, email }, config.token_secret, {
       expiresIn: "360000",
     });
-    res.status(200).send({ token, utilisateur, message: "success" });
+    
+    if (!utilisateur.isVerified) {
+      res.status(400).send({ message: "email non verifié" });
+    }else {
+      res.status(200).send({ token, utilisateur, message: "success" });
+    }
+    
   } else {
     res.status(403).send({ message: "mot de passe ou email incorrect" });
-  }
-};
+  };
+}
 
 exports.modifierProfil = async (req, res) => {
   const { pseudo, email, mdp, nom, prenom, dateNaissance, idPhoto, sexe, score, bio } = req.body;
@@ -197,7 +232,7 @@ exports.modifierPhotoProfil = async (req, res, next) => {
   });
 
   /*
-
+ 
   var obj = {
     name: req.body.name,
     desc: req.body.desc,
@@ -242,7 +277,7 @@ async function SetupUtilisateurFolder(id) {
 
 exports.supprimerToutUtilisateur = async (req, res) => {
   Utilisateur.remove({}, function (err, utilisateur) {
-      if (err) { return handleError(res, err); }
-      return res.status(204).send({ message: "Aucun element" });
+    if (err) { return handleError(res, err); }
+    return res.status(204).send({ message: "Aucun element" });
   })
 }
