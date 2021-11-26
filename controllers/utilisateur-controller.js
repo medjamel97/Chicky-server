@@ -74,21 +74,6 @@ exports.inscription = async (req, res) => {
   }
 };
 
-exports.verifierConfirmationEmail = async (req, res) => {
-  const utilisateur = await Utilisateur.findOne({ "email": req.body.email });
-
-  if (utilisateur) {
-    if (utilisateur.isVerified) {
-      res.status(200).send({ utilisateur, message: "utilisateur verifié" });
-    } else {
-      res.status(403).send({ utilisateur, message: "Utilisateur non verifié" });
-    }
-  } else {
-    res.status(404).send({ message: "Utilisateur innexistant" })
-  }
-
-};
-
 exports.reEnvoyerConfirmationEmail = async (req, res) => {
   const utilisateur = await Utilisateur.findOne({ "email": req.body.email });
 
@@ -185,7 +170,7 @@ exports.connexion = async (req, res) => {
     });
     
     if (!utilisateur.isVerified) {
-      res.status(400).send({ message: "email non verifié" });
+      res.status(200).send({ utilisateur, message: "email non verifié" });
     }else {
       res.status(200).send({ token, utilisateur, message: "success" });
     }
