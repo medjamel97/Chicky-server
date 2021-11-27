@@ -65,7 +65,7 @@ exports.inscription = async (req, res) => {
 
     SetupUtilisateurFolder(nouveauUtilisateur._id);
     // token creation
-    const token = jwt.sign({ _id: nouveauUtilisateur._id, role: Role.User }, config.token_secret, {
+    const token = jwt.sign({ _id: nouveauUtilisateur._id, role: Role.Utilisateur }, config.token_secret, {
       expiresIn: "60000", // in Milliseconds (3600000 = 1 hour)
     });
 
@@ -79,7 +79,7 @@ exports.reEnvoyerConfirmationEmail = async (req, res) => {
 
   if (utilisateur) {
     // token creation
-    const token = jwt.sign({ _id: utilisateur._id, email: utilisateur.email, role: Role.User }, config.token_secret, {
+    const token = jwt.sign({ _id: utilisateur._id, email: utilisateur.email, role: Role.Utilisateur }, config.token_secret, {
       expiresIn: "60000", // in Milliseconds (3600000 = 1 hour)
     });
 
@@ -97,7 +97,7 @@ async function sendConfirmationEmail(email, token) {
     service: 'gmail',
     auth: {
       user: 'chicky.app@gmail.com',
-      pass: 'chicky-app-cred'
+      pass: 'this-is-chicky-gmail-password'
     }
   });
 
@@ -168,17 +168,87 @@ exports.connexion = async (req, res) => {
     const token = jwt.sign({ id: utilisateur._id, email }, config.token_secret, {
       expiresIn: "360000",
     });
-    
+
     if (!utilisateur.isVerified) {
       res.status(200).send({ utilisateur, message: "email non verifié" });
-    }else {
+    } else {
       res.status(200).send({ token, utilisateur, message: "success" });
     }
-    
+
   } else {
     res.status(403).send({ message: "mot de passe ou email incorrect" });
   };
 }
+
+exports.motDePasseOublie = async (req, res) => {
+  const codeDeReinit = req.body.codeDeReinit
+  const utilisateur = await Utilisateur.findOne({ "email": req.body.email });
+
+  if (utilisateur) {
+    // token creation
+    const token = jwt.sign({ _id: utilisateur._id, email: utilisateur.email }, config.token_secret, {
+      expiresIn: "3600000", // in Milliseconds (3600000 = 1 hour)
+    });
+
+    envoyerEmailReinitialisation(req.body.email, token, codeDeReinit);
+
+    res.status(200).send({ "message": "L'email de reinitialisation a été envoyé a " + utilisateur.email })
+  } else {
+    res.status(404).send({ "message": "Utilisateur innexistant" })
+  }
+};
+
+async function envoyerEmailReinitialisation(email, token, codeDeReinit) {
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'chicky.app@gmail.com',
+      pass: 'this-is-chicky-gmail-password'
+    }
+  });
+
+  transporter.verify(function (error, success) {
+    if (error) {
+      console.log(error);
+      console.log("Server not ready");
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+  });
+
+  const mailOptions = {
+    from: 'chicky.app@gmail.com',
+    to: email,
+    subject: 'Reinitialisation de votre mot de passe - Chicky',
+    html: "<h3>Vous avez envoyé une requete de reinitialisation de mot de passe </h3><p>Entrez ce code dans l'application pour proceder : <b style='color : blue'>" + codeDeReinit + "</b></p>"
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent : ' + info.response);
+    }
+  });
+}
+
+exports.changerMotDePasse = async (req, res) => {
+  const { email, nouveauMotDePasse } = req.body;
+
+  nouveauMdpEncrypted = await bcypt.hash(nouveauMotDePasse, 10);
+
+  let utilisateur = await Utilisateur.findOneAndUpdate(
+    { email: email },
+    {
+      $set: {
+        mdp : nouveauMdpEncrypted
+      }
+    }
+  );
+
+  res.send({ utilisateur });
+};
 
 exports.modifierProfil = async (req, res) => {
   const { pseudo, email, mdp, nom, prenom, dateNaissance, idPhoto, sexe, score, bio } = req.body;

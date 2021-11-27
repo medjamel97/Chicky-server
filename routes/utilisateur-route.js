@@ -12,6 +12,10 @@ router.post("/connexion", UtilisateurController.connexion);
 
 router.post("/reEnvoyerConfirmationEmail", UtilisateurController.reEnvoyerConfirmationEmail);
 
+router.post("/motDePasseOublie", UtilisateurController.motDePasseOublie);
+
+router.put("/changerMotDePasse", UtilisateurController.changerMotDePasse);
+
 router.put("/modifierProfil", UtilisateurController.modifierProfil);
 
 router.post("/modifierProfil/pic/:id", UtilisateurController.modifierPhotoProfil);
