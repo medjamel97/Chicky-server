@@ -79,9 +79,7 @@ exports.reEnvoyerConfirmationEmail = async (req, res) => {
 
   if (utilisateur) {
     // token creation
-    const token = jwt.sign({ _id: utilisateur._id, email: utilisateur.email, role: Role.Utilisateur }, config.token_secret, {
-      expiresIn: "60000", // in Milliseconds (3600000 = 1 hour)
-    });
+    roken = makeTokenForLogin(utilisateur._id, email._id)
 
     sendConfirmationEmail(req.body.email, token);
 
@@ -179,6 +177,46 @@ exports.connexion = async (req, res) => {
     res.status(403).send({ message: "mot de passe ou email incorrect" });
   };
 }
+
+function makeTokenForLogin(_id, email) {
+  return jwt.sign({ _id: _id, email: email}, config.token_secret, {
+      expiresIn: "99999999999", // in Milliseconds (3600000 = 1 hour)
+  });
+}
+
+exports.loginWithSocialApp = async (req, res) => {
+
+  const { email, name } = req.body;
+
+  if (email == "") {
+      res.status(403).send({ message: "error please provide an email" });
+  } else {
+      var user = await User.findOne({ email });
+      if (user) {
+          console.log("user exists, loging in")
+      } else {
+          console.log("user does not exists, creating an account")
+
+          user = new User();
+
+          user.name = name;
+          user.email = email;
+          //user.address = ;
+          //user.password = ;
+          //user.phone = ;
+          user.role = Role.Student;
+          user.isVerified = true;
+
+          user.save();
+      }
+
+      // token creation
+      const token = makeTokenForLogin(user._id, user.role)
+
+      res.status(201).send({ message: "success", user: user, "token": token });
+  }
+}
+
 
 exports.motDePasseOublie = async (req, res) => {
   const codeDeReinit = req.body.codeDeReinit
