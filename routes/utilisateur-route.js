@@ -1,27 +1,48 @@
-const express = require("express");
-const router = express.Router();
-const UtilisateurController = require("../controllers/utilisateur-controller");
+const express = require("express")
+const router = express.Router()
+const UtilisateurController = require("../controllers/utilisateur-controller")
 
-router.get("/", UtilisateurController.recupererUtilisateurs);
 
-router.post("/inscription", UtilisateurController.inscription);
+// Upload image------------------------------------------------------
+const multer = require("multer")
 
-router.get("/confirmation/:token", UtilisateurController.confirmation);
+const storage = multer.diskStorage({
+    destination:function (req, file, cb) {
+        cb(null, '/public/images/profile/')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+const multer  = require('multer')
+const upload = multer({ dest: './public/data/uploads/' })
+const upload = multer({storage}).any;
+//-------------------------------------------------------------------
 
-router.post("/connexion", UtilisateurController.connexion);
+router.get("/", UtilisateurController.recupererUtilisateurs)
 
-router.post("/reEnvoyerConfirmationEmail", UtilisateurController.reEnvoyerConfirmationEmail);
+router.post("/inscription", UtilisateurController.inscription)
 
-router.post("/motDePasseOublie", UtilisateurController.motDePasseOublie);
+router.post("/connexion", UtilisateurController.connexion)
 
-router.put("/changerMotDePasse", UtilisateurController.changerMotDePasse);
+router.post("/connexionAvecReseauSocial", UtilisateurController.connexionAvecReseauSocial)
 
-router.put("/modifierProfil", UtilisateurController.modifierProfil);
+router.get("/recupererUtilisateurParToken", UtilisateurController.recupererUtilisateurParToken)
 
-router.post("/modifierProfil/pic/:id", UtilisateurController.modifierPhotoProfil);
+router.post("/envoyerConfirmationEmail", UtilisateurController.envoyerConfirmationEmail)
 
-router.delete("/supprimer", UtilisateurController.supprimerUtilisateur);
+router.get("/confirmation/:token", UtilisateurController.confirmation)
+
+router.post("/motDePasseOublie", UtilisateurController.motDePasseOublie)
+
+router.put("/changerMotDePasse", UtilisateurController.changerMotDePasse)
+
+router.put("/modifierProfil", UtilisateurController.modifierProfil)
+
+router.post("/modifierProfil/pic", upload.t("image") , UtilisateurController.modifierPhotoProfil)
+
+router.delete("/supprimer", UtilisateurController.supprimerUtilisateur)
 
 router.delete("/supprimerTout", UtilisateurController.supprimerToutUtilisateur)
 
-module.exports = router;
+module.exports = router

@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 
 var imageSchema = new mongoose.Schema({
     name: String,
@@ -8,8 +8,8 @@ var imageSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     }
-});
+})
 
 //Image is a model which has a schema imageSchema
 
-module.exports = new mongoose.model('Image', imageSchema);
+module.exports = new mongoose.model('Image', imageSchema)

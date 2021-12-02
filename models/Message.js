@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const MessageSchema = new mongoose.Schema(
   {
@@ -8,5 +8,5 @@ const MessageSchema = new mongoose.Schema(
   {
     timestamps: { currentTime: () => Date.now() },
   }
-);
-module.exports = mongoose.model("Message", MessageSchema);
+)
+module.exports = mongoose.model("Message", MessageSchema)

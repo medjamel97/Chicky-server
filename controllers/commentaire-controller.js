@@ -2,7 +2,7 @@ let Commentaire = require("../models/Commentaire")
 
 exports.recupererCommentaire = async (req, res) => {
 
-    var commentaire;
+    var commentaire
     if (req.body._id) {
         commentaire = await Commentaire.findById(req.body._id)
     } else {
@@ -13,18 +13,18 @@ exports.recupererCommentaire = async (req, res) => {
 }
 
 exports.ajouterCommentaire = async (req, res) => {
-    const { description } = req.body;
+    const { description } = req.body
 
-    const nouveauCommentaire = new Commentaire();
+    const nouveauCommentaire = new Commentaire()
 
-    nouveauCommentaire.description = description;
-    nouveauCommentaire.save();
+    nouveauCommentaire.description = description
+    nouveauCommentaire.save()
 
-    res.status(201).send({ message: "success", commentaire: nouveauCommentaire });
+    res.status(201).send({ message: "success", commentaire: nouveauCommentaire })
 }
 
 exports.modifierCommentaire = async (req, res) => {
-    const { _id, description } = req.body;
+    const { _id, description } = req.body
 
     let commentaire = await Commentaire.findOneAndUpdate(
         { _id: _id },
@@ -33,19 +33,18 @@ exports.modifierCommentaire = async (req, res) => {
                 description: description
             }
         }
-    );
-
-    res.status(201).send({ message: "success", commentaire: commentaire });
-};
+    )
+    res.status(201).send({ message: "success", commentaire: commentaire })
+}
 
 exports.supprimerCommentaire = async (req, res) => {
     const commentaire = await Commentaire.findById(req.body._id).remove()
-    res.status(201).send({ message: "success", commentaire: commentaire });
+    res.status(201).send({ message: "success", commentaire: commentaire })
 }
 
 exports.supprimerToutCommentaire = async (req, res) => {
     Commentaire.remove({}, function (err, commentaire) {
-        if (err) { return handleError(res, err); }
-        return res.status(204).send({ message: "Aucun element" });
+        if (err) { return handleError(res, err) }
+        return res.status(204).send({ message: "Aucun element" })
     })
 }

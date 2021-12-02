@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const PublicationSchema = new mongoose.Schema(
   {
@@ -9,5 +9,5 @@ const PublicationSchema = new mongoose.Schema(
   {
     timestamps: { currentTime: () => Date.now() },
   }
-);
-module.exports = mongoose.model("Publication", PublicationSchema);
+)
+module.exports = mongoose.model("Publication", PublicationSchema)
