@@ -4,7 +4,7 @@ const PublicationSchema = new mongoose.Schema(
   {
     idPhoto: { type: String },
     description: { type: String },
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
   },
   {
     timestamps: { currentTime: () => Date.now() },

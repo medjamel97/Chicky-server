@@ -1,5 +1,10 @@
 let Commentaire = require("../models/Commentaire")
 
+exports.recupererToutCommentaire = async (req, res) => {
+    res.send({ "commentaire" : await Commentaire.find() })
+}
+
+
 exports.recupererCommentaire = async (req, res) => {
 
     var commentaire
@@ -13,12 +18,13 @@ exports.recupererCommentaire = async (req, res) => {
 }
 
 exports.ajouterCommentaire = async (req, res) => {
-    const { description } = req.body
+    const { description, idPublication } = req.body;
 
     const nouveauCommentaire = new Commentaire()
 
-    nouveauCommentaire.description = description
-    nouveauCommentaire.save()
+    nouveauCommentaire.description = description;
+    nouveauCommentaire.idPublication = idPublication;
+    nouveauCommentaire.save();
 
     res.status(201).send({ message: "success", commentaire: nouveauCommentaire })
 }

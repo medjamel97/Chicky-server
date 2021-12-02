@@ -1,5 +1,9 @@
 let Publication = require("../models/Publication")
 
+exports.recupererToutPublication = async (req, res) => {
+    res.send({ "publication" : await Publication.find() })
+}
+
 exports.recupererPublication = async (req, res) => {
 
     var publication

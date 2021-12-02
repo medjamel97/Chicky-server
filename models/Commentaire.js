@@ -6,7 +6,8 @@ const CommentaireSchema = new mongoose.Schema(
     date: {
       type: Date,
       default: Date.now
-    }
+    },
+    idPublication: { type: String }
   },
   {
     timestamps: { currentTime: () => Date.now() },

@@ -2,23 +2,6 @@ const express = require("express")
 const router = express.Router()
 const UtilisateurController = require("../controllers/utilisateur-controller")
 
-
-// Upload image------------------------------------------------------
-const multer = require("multer")
-
-const storage = multer.diskStorage({
-    destination:function (req, file, cb) {
-        cb(null, '/public/images/profile/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-})
-const multer  = require('multer')
-const upload = multer({ dest: './public/data/uploads/' })
-const upload = multer({storage}).any;
-//-------------------------------------------------------------------
-
 router.get("/", UtilisateurController.recupererUtilisateurs)
 
 router.post("/inscription", UtilisateurController.inscription)
@@ -39,7 +22,7 @@ router.put("/changerMotDePasse", UtilisateurController.changerMotDePasse)
 
 router.put("/modifierProfil", UtilisateurController.modifierProfil)
 
-router.post("/modifierProfil/pic", upload.t("image") , UtilisateurController.modifierPhotoProfil)
+router.post("/modifierProfil/pic", UtilisateurController.modifierPhotoProfil)
 
 router.delete("/supprimer", UtilisateurController.supprimerUtilisateur)
 

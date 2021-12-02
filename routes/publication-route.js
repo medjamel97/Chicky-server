@@ -8,6 +8,8 @@ router.route("/")
     .put(PublicationController.modifierPublication)
     .delete(PublicationController.supprimerPublication)
 
-router.delete("/supprimerTout", PublicationController.supprimerToutPublication)
+    router.delete("/supprimerTout", PublicationController.supprimerToutPublication)
+
+    router.get("/all", PublicationController.recupererToutPublication)
 
 module.exports = router
