@@ -13,11 +13,13 @@ exports.recupererCommentaire = async (req, res) => {
 }
 
 exports.ajouterCommentaire = async (req, res) => {
-    const { description } = req.body;
+    const { description, idUser, idPublication } = req.body;
 
     const nouveauCommentaire = new Commentaire();
 
     nouveauCommentaire.description = description;
+    nouveauCommentaire.idPublication = idPublication;
+    nouveauCommentaire.idUser = idUser;
     nouveauCommentaire.save();
 
     res.status(201).send({ message: "success", commentaire: nouveauCommentaire });

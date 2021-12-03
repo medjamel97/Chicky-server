@@ -13,12 +13,14 @@ exports.recupererPublication = async (req, res) => {
 }
 
 exports.ajouterPublication = async (req, res) => {
-    const { idPhoto, description } = req.body;
+    const { idPhoto, description, idUser } = req.body;
 
     const nouvellePublication = new Publication();
 
     nouvellePublication.idPhoto = idPhoto;
     nouvellePublication.description = description;
+    nouvellePublication.idUser = idUser ; 
+   // nouvellePublication.commentaires = [];
     nouvellePublication.save();
 
     res.status(201).send({ message: "success", publication: nouvellePublication });

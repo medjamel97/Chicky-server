@@ -30,5 +30,13 @@
     "multer-gridfs-storage": "^5.0.2",
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.14"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamelbd97/node-server-chicky.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jamelbd97/node-server-chicky/issues"
+  },
+  "homepage": "https://github.com/jamelbd97/node-server-chicky#readme"
 }
