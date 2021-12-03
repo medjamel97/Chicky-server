@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const UtilisateurSchema = new mongoose.Schema(
   {
@@ -22,5 +22,5 @@ const UtilisateurSchema = new mongoose.Schema(
   {
     timestamps: { currentTime: () => Date.now() },
   }
-);
-module.exports = mongoose.model("Utilisateur", UtilisateurSchema);
+)
+module.exports = mongoose.model("Utilisateur", UtilisateurSchema)
