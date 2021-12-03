@@ -1,15 +1,12 @@
 let Conversation = require("../models/Conversation")
 
+exports.recupererToutConversation = async (req, res) => {
+    res.send({ conversation : await Conversation.find() })
+}
+
+
 exports.recupererConversation = async (req, res) => {
-
-    var conversation
-    if (req.body._id) {
-        conversation = await Conversation.findById(req.body._id)
-    } else {
-        conversation = await Conversation.find()
-    }
-
-    res.send({ conversation })
+    res.send({ conversation : await Conversation.findById(req.body._id)})
 }
 
 exports.ajouterConversation = async (req, res) => {

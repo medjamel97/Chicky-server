@@ -10,7 +10,7 @@ router.post("/connexion", UtilisateurController.connexion)
 
 router.post("/connexionAvecReseauSocial", UtilisateurController.connexionAvecReseauSocial)
 
-router.get("/recupererUtilisateurParToken", UtilisateurController.recupererUtilisateurParToken)
+router.post("/recupererUtilisateurParToken", UtilisateurController.recupererUtilisateurParToken)
 
 router.post("/envoyerConfirmationEmail", UtilisateurController.envoyerConfirmationEmail)
 

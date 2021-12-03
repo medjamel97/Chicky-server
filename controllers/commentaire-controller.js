@@ -1,20 +1,12 @@
 let Commentaire = require("../models/Commentaire")
 
 exports.recupererToutCommentaire = async (req, res) => {
-    res.send({ "commentaire" : await Commentaire.find() })
+    res.send({ commentaire : await Commentaire.find() })
 }
 
 
 exports.recupererCommentaire = async (req, res) => {
-
-    var commentaire
-    if (req.body._id) {
-        commentaire = await Commentaire.findById(req.body._id)
-    } else {
-        commentaire = await Commentaire.find()
-    }
-
-    res.send({ commentaire })
+    res.send({ commentaire : await Commentaire.findById(req.body._id)})
 }
 
 exports.ajouterCommentaire = async (req, res) => {

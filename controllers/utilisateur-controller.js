@@ -134,11 +134,12 @@ exports.recupererUtilisateurParToken = async (req, res) => {
 
   try {
     token = jwt.verify(token, config.token_secret)
+ 
   } catch (e) {
-
+    return res.sendStatus(404)
   }
-
-  res.send({ token })
+  
+  res.send({ token , "utilisateur" : await Utilisateur.findById(token.id) })
 }
 
 exports.envoyerConfirmationEmail = async (req, res) => {

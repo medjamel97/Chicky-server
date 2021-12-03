@@ -1,19 +1,12 @@
 let Publication = require("../models/Publication")
 
 exports.recupererToutPublication = async (req, res) => {
-    res.send({ "publication" : await Publication.find() })
+    res.send({ publication : await Publication.find() })
 }
 
+
 exports.recupererPublication = async (req, res) => {
-
-    var publication
-    if (req.body._id) {
-        publication = await Publication.findById(req.body._id)
-    } else {
-        publication = await Publication.find()
-    }
-
-    res.send({ publication })
+    res.send({ publication : await Publication.findById(req.body._id)})
 }
 
 exports.ajouterPublication = async (req, res) => {

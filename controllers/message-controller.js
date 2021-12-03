@@ -1,15 +1,12 @@
 let Message = require("../models/Message")
 
+exports.recupererToutMessage = async (req, res) => {
+    res.send({ conversation : await Message.find() })
+}
+
+
 exports.recupererMessage = async (req, res) => {
-
-    var message
-    if (req.body._id) {
-        message = await Message.findById(req.body._id)
-    } else {
-        message = await Message.find()
-    }
-
-    res.send({ message })
+    res.send({ conversation : await Message.findById(req.body._id)})
 }
 
 exports.ajouterMessage = async (req, res) => {
