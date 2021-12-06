@@ -7,6 +7,20 @@ const PublicationSchema = new mongoose.Schema(
     date: { type: Date, default: Date.now },
     commentaires : {type: Array}, 
     idUser: { type: String },
+    commentaires : [{
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Commentaire"
+    }],
+    utilisateurs : {
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Utilisateur"
+    },
+    jaimes : [{
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Jaime"
+    }],
+
+
     
   },
   {

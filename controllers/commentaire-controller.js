@@ -1,4 +1,6 @@
 let Commentaire = require("../models/Commentaire")
+const Publication = require("../models/Publication")
+const Utilisateur = require("../models/Utilisateur")
 
 exports.recupererToutCommentaire = async (req, res) => {
     res.send({ commentaire : await Commentaire.find() })
@@ -10,13 +12,30 @@ exports.recupererCommentaire = async (req, res) => {
 }
 
 exports.ajouterCommentaire = async (req, res) => {
-    const { description, idUser, idPublication } = req.body;
+    const { description, utilisateur, publication } = req.body;
 
     const nouveauCommentaire = new Commentaire()
 
     nouveauCommentaire.description = description;
-    nouveauCommentaire.idPublication = idPublication;
-    nouveauCommentaire.idUser = idUser;
+    
+    await Publication.findOneAndUpdate(
+        {_id : publication},
+        {
+            $push: {
+                commentaires:[nouveauCommentaire._id]
+            }
+        }
+    )
+
+    await Utilisateur.findOneAndUpdate(
+        {_id : utilisateur},
+        {
+            $push: {
+                commentaires:[nouveauCommentaire._id]
+            }
+        }
+    )
+
     nouveauCommentaire.save();
 
     res.status(201).send({ message: "success", commentaire: nouveauCommentaire })

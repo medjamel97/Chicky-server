@@ -16,8 +16,26 @@ const UtilisateurSchema = new mongoose.Schema(
     // Relations
     /*publication: {
       type: mongoose.Types.ObjectId
-      ref: Publication
+      ref: "Publication"
     }*/
+
+    publications : [{
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Publication"
+    }],
+    conversations : [{
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Conversation"
+    }],
+    commentaires : [{
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Commentaire"
+    }],
+    jaimes : [{
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Jaime"
+    }],
+
   },
   {
     timestamps: { currentTime: () => Date.now() },

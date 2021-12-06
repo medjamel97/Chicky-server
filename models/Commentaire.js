@@ -9,6 +9,14 @@ const CommentaireSchema = new mongoose.Schema(
     },
     idPublication: { type: String },
     idUser : {type:String},
+    utilisateurs : {
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Utilisateur"
+    },
+    publications : {
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Publication"
+    },
 
   },
   {

@@ -7,10 +7,13 @@ exports.recupererToutConversation = async (req, res) => {
 
 exports.recupererConversation = async (req, res) => {
     res.send({ conversation : await Conversation.findById(req.body._id)})
+    
 }
 
 exports.ajouterConversation = async (req, res) => {
     const { description } = req.body
+
+    Conversation.last
 
     const nouvelleConversation = new Conversation()
 
