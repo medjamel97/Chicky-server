@@ -1,7 +1,7 @@
 let Conversation = require("../models/Conversation")
 
 exports.recupererToutConversation = async (req, res) => {
-    res.send({ conversation : await Conversation.find() })
+    res.send({ conversations : await Conversation.find() })
 }
 
 
@@ -11,13 +11,14 @@ exports.recupererConversation = async (req, res) => {
 }
 
 exports.ajouterConversation = async (req, res) => {
-    const { description } = req.body
-
-    Conversation.last
+    const { dernierMessage } = req.body
 
     const nouvelleConversation = new Conversation()
 
-    nouvelleConversation.description = description
+    nouvelleConversation.dernierMessage = dernierMessage
+    nouvelleConversation.recepteur = "aaaaaaaaaaaa"
+    nouvelleConversation.envoyeur = "aaaaaaaaaaaa"
+
     nouvelleConversation.save()
 
     res.status(201).send({ message: "success", conversation: nouvelleConversation })

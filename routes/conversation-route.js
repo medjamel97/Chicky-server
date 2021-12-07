@@ -3,7 +3,7 @@ const router = express.Router()
 const ConversationController = require("../controllers/conversation-controller")
 
 router.route("/")
-    .get(ConversationController.recupererConversation)
+    .get(ConversationController.recupererToutConversation)
     .post(ConversationController.ajouterConversation)
     .put(ConversationController.modifierConversation)
     .delete(ConversationController.supprimerConversation)
