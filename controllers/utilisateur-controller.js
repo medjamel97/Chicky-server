@@ -141,7 +141,7 @@ exports.recupererUtilisateurParToken = async (req, res) => {
     return res.sendStatus(404)
   }
   
-  res.send({ token , "utilisateur" : await Utilisateur.findById(token.id) })
+  res.send({ token , "utilisateur" : await Utilisateur.findOne({ email : token.email })})
 }
 
 exports.envoyerConfirmationEmail = async (req, res) => {
@@ -235,10 +235,10 @@ exports.modifierProfil = async (req, res) => {
         nom: nom,
         prenom: prenom,
         //dateNaissance: dateNaissance,
-        idPhoto: idPhoto,
+        //idPhoto: idPhoto,
         sexe: sexe,
-        score: score,
-        bio: bio
+        //score: score,
+        //bio: bio
       }
     }
   )
