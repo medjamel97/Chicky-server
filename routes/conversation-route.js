@@ -6,8 +6,8 @@ router.route("/")
     .get(ConversationController.recupererToutConversation)
     .post(ConversationController.ajouterConversation)
     .put(ConversationController.modifierConversation)
-    .delete(ConversationController.supprimerConversation)
 
 router.delete("/supprimerTout", ConversationController.supprimerToutConversation)
+router.post("/supp",ConversationController.supprimerConversation)
 
 module.exports = router

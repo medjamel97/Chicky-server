@@ -80,9 +80,10 @@ exports.connexion = async (req, res) => {
   const utilisateur = await Utilisateur.findOne({ email })
 
   if (utilisateur && (await bcypt.compare(mdp, utilisateur.mdp))) {
-    const token = jwt.sign({ id: utilisateur._id, email }, config.token_secret, {
-      expiresIn: "360000",
+    const token = jwt.sign({ email: email }, config.token_secret, {
+      expiresIn: "36000000",
     })
+
 
     if (!utilisateur.isVerified) {
       res.status(200).send({ utilisateur, message: "email non verifié" })
@@ -97,34 +98,35 @@ exports.connexion = async (req, res) => {
 
 exports.connexionAvecReseauSocial = async (req, res) => {
 
-  const { email, name } = req.body
+  const { email, nom } = req.body
 
   if (email === "") {
     res.status(403).send({ message: "error please provide an email" })
   } else {
-    var user = await User.findOne({ email })
-    if (user) {
+    var utilisateur = await Utilisateur.findOne({ email })
+    if (utilisateur) {
       console.log("user exists, loging in")
     } else {
       console.log("user does not exists, creating an account")
 
-      user = new User()
+      utilisateur = new Utilisateur()
 
-      user.name = name
-      user.email = email
-      //user.address =
-      //user.password =
-      //user.phone =
-      user.role = Role.Student
-      user.isVerified = true
+      utilisateur.nom = nom
+      utilisateur.email = email
+      //utilisateur.address =
+      //utilisateur.password =
+      //utilisateur.phone =
+      utilisateur.isVerified = true
 
-      user.save()
+      utilisateur.save()
     }
 
     // token creation
-    const token = makeTokenForLogin(user._id, user.role)
+    const token = jwt.sign({ email: email }, config.token_secret, {
+      expiresIn: "360000000",
+    })
 
-    res.status(201).send({ message: "success", user: user, "token": token })
+    res.status(201).send({ message: "success", utilisateur , token: token })
   }
 }
 

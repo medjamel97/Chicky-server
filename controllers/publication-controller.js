@@ -1,25 +1,22 @@
 let Publication = require("../models/Publication")
 
 exports.recupererToutPublication = async (req, res) => {
-    res.send({ publication : await Publication.find().populate("commentaires") })
+    res.send({ publication: await Publication.find()})
 }
 
-
-
-
 exports.recupererPublication = async (req, res) => {
-    res.send({ publication : await Publication.findById(req.body._id)})
+    res.send({ publication: await Publication.findById(req.body._id) })
 }
 
 exports.ajouterPublication = async (req, res) => {
-    const { idPhoto, description, idUser } = req.body;
+    const { description, utilisateur } = req.body;
 
     const nouvellePublication = new Publication()
 
-    nouvellePublication.idPhoto = idPhoto;
+    nouvellePublication.idPhoto = req.file.filename;
     nouvellePublication.description = description;
-    nouvellePublication.idUser = idUser ; 
-   // nouvellePublication.commentaires = [];
+    // nouvellePublication.utilisateur = utilisateur;
+    // nouvellePublication.commentaires = [];
     nouvellePublication.save();
 
     res.status(201).send({ message: "success", publication: nouvellePublication })

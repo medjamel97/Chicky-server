@@ -7,8 +7,10 @@ const config = require("./config.json")
 const bodyParser = require("body-parser")
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "/uploads")))
-app.use("/uploads", express.static("./uploads"))
+
+app.use(express.static('public'));  
+app.use('/img', express.static('uploads/images'));
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
