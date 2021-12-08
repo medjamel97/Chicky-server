@@ -53,20 +53,11 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// app.use(logger('dev'))
-// app.use(express.static(path.join(__dirname),'public'));
-
-const routeUtilisateur = require("./routes/utilisateur-route")
-const routePublication = require("./routes/publication-route")
-const routeCommentaire = require("./routes/commentaire-route")
-const routeConversation = require("./routes/conversation-route")
-const routeMessage = require("./routes/message-route")
-
-app.use("/api.chicky.com/utilisateur", routeUtilisateur)
-app.use("/api.chicky.com/publication", routePublication)
-app.use("/api.chicky.com/commentaire", routeCommentaire)
-app.use("/api.chicky.com/conversation", routeConversation)
-app.use("/api.chicky.com/message", routeMessage)
+app.use("/api/utilisateur", require("./routes/utilisateur-route"))
+app.use("/api/publication", require("./routes/publication-route"))
+app.use("/api/commentaire", require("./routes/commentaire-route"))
+app.use("/api/conversation", require("./routes/conversation-route"))
+app.use("/api/message", require("./routes/message-route"))
 
 mongoose.Promise = global.Promise
 mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true })
