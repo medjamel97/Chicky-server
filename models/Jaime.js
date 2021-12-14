@@ -2,21 +2,22 @@ const mongoose = require("mongoose")
 
 const JaimeSchema = new mongoose.Schema(
   {
-    
+
     date: {
       type: Date,
       default: Date.now
     },
-    utilisateurs : {
-        type : mongoose.Schema.Types.ObjectId, 
-        ref: "Utilisateur"
-      },
-      publications : [{
-        type : mongoose.Schema.Types.ObjectId, 
-        ref: "Publication"
-      }],
-    
-                                                       
+
+    utilisateur: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Utilisateur"
+    },
+    publication: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Publication"
+    },
+
+
   },
   {
     timestamps: { currentTime: () => Date.now() },

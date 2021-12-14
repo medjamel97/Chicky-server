@@ -8,11 +8,11 @@ const CommentaireSchema = new mongoose.Schema(
       default: Date.now
     },
   
-    utilisateurs : {
+    utilisateur : {
       type : mongoose.Schema.Types.ObjectId, 
       ref: "Utilisateur"
     },
-    publications : {
+    publication : {
       type : mongoose.Schema.Types.ObjectId, 
       ref: "Publication"
     },

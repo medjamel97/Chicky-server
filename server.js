@@ -6,7 +6,9 @@ const port = process.env.PORT || 3000
 const config = require("./config.json")
 const bodyParser = require("body-parser")
 const path = require("path");
+const morgan = require("morgan")
 
+app.use(morgan('combined'))
 
 app.use(express.static('public'));  
 app.use('/img', express.static('uploads/images'));
@@ -56,6 +58,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use("/api/utilisateur", require("./routes/utilisateur-route"))
 app.use("/api/publication", require("./routes/publication-route"))
 app.use("/api/commentaire", require("./routes/commentaire-route"))
+app.use("/api/evaluation", require("./routes/evaluation-route"))
 app.use("/api/conversation", require("./routes/conversation-route"))
 app.use("/api/message", require("./routes/message-route"))
 

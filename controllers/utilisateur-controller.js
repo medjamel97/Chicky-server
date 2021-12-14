@@ -23,13 +23,7 @@ const storage = multer.diskStorage({
 ///// LINKS ---------------------------------------------------------
 
 exports.recupererUtilisateurs = async (req, res) => {
-  const utilisateurs = await Utilisateur.find({})
-
-  if (utilisateurs) {
-    res.status(200).send({ utilisateurs, message: "success" })
-  } else {
-    res.status(403).send({ message: "fail" })
-  }
+  res.status(200).send({ utilisateurs: await Utilisateur.find(), message: "success" })
 }
 
 exports.inscription = async (req, res) => {
@@ -126,7 +120,7 @@ exports.connexionAvecReseauSocial = async (req, res) => {
       expiresIn: "360000000",
     })
 
-    res.status(201).send({ message: "success", utilisateur , token: token })
+    res.status(201).send({ message: "success", utilisateur, token: token })
   }
 }
 
@@ -136,12 +130,12 @@ exports.recupererUtilisateurParToken = async (req, res) => {
 
   try {
     token = jwt.verify(token, config.token_secret)
- 
+
   } catch (e) {
     return res.sendStatus(404)
   }
-  
-  res.send({ token , "utilisateur" : await Utilisateur.findOne({ email : token.email })})
+
+  res.send({ token, "utilisateur": await Utilisateur.findOne({ email: token.email }) })
 }
 
 exports.envoyerConfirmationEmail = async (req, res) => {
@@ -234,7 +228,7 @@ exports.modifierProfil = async (req, res) => {
         //mdp : mdp,
         nom: nom,
         prenom: prenom,
-        //dateNaissance: dateNaissance,
+        dateNaissance: dateNaissance,
         //idPhoto: idPhoto,
         sexe: sexe,
         //score: score,
@@ -246,35 +240,17 @@ exports.modifierProfil = async (req, res) => {
   res.send({ utilisateur })
 }
 
-exports.modifierPhotoProfil = async (req, res, next) => {
-
-  await upload(req, res, function (err) {
-    if (err) {
-      res.send({ err });
+exports.changerPhotoDeProfil = async (req, res, next) => {
+  let utilisateur = await Utilisateur.findOneAndUpdate(
+    { email: req.body.email },
+    {
+      $set: {
+        idPhoto: req.file.filename,
+      }
     }
-    console.log(req.file);
-  })
-  
-  /*upload(req, res, async function (err) {
-    if (err) {
-      res.send({ err });
-    }
+  )
 
-    console.log("req", id);
-    const path = req.files[0].originalname;
-    res.send("")
-  });*/
-
-  /*
-
-  var obj = {
-    name: req.body.name,
-    desc: req.body.desc,
-    img: {
-      data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-      contentType: 'image/jpeg'
-    }
-  }*/
+  res.send({ utilisateur })
 };
 
 exports.supprimerUtilisateur = async (req, res) => {

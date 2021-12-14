@@ -13,11 +13,6 @@ const UtilisateurSchema = new mongoose.Schema(
     score: { type: Number },
     bio: { type: String },
     isVerified: { type: Boolean },
-    // Relations
-    /*publication: {
-      type: mongoose.Types.ObjectId
-      ref: "Publication"
-    }*/
 
     publications : [{
       type : mongoose.Schema.Types.ObjectId, 

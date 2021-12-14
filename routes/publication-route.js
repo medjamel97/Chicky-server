@@ -4,8 +4,7 @@ const PublicationController = require("../controllers/publication-controller")
 const upload = require('../middlewares/storage');
 
 router.route("/")
-    .get(PublicationController.recupererPublication)
-
+    .get(PublicationController.recupererToutPublication)
     .put(PublicationController.modifierPublication)
     .delete(PublicationController.supprimerPublication)
 

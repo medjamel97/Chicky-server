@@ -21,8 +21,10 @@ const PublicationSchema = new mongoose.Schema(
       ref: "Jaime"
     }],
 
-
-    
+    evaluations : [{
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Evaluation"
+    }],
   },
   {
     timestamps: { currentTime: () => Date.now() },

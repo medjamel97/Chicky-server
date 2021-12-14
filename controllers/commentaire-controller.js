@@ -2,36 +2,37 @@ let Commentaire = require("../models/Commentaire")
 const Publication = require("../models/Publication")
 const Utilisateur = require("../models/Utilisateur")
 
-exports.recupererToutCommentaire = async (req, res) => {
-    res.send({ commentaire : await Commentaire.find() })
+exports.recupererCommentaireParPublication = async (req, res) => {
+    res.send({ commentaire: await Commentaire.find({ publication: req.body.publication }).populate("utilisateur publication") })
 }
 
-
 exports.recupererCommentaire = async (req, res) => {
-    res.send({ commentaire : await Commentaire.findById(req.body._id)})
+    res.send({ commentaire: await Commentaire.findById(req.body._id) })
 }
 
 exports.ajouterCommentaire = async (req, res) => {
+    console.log(req.body)
     const { description, utilisateur, publication } = req.body;
 
     const nouveauCommentaire = new Commentaire()
-
     nouveauCommentaire.description = description;
-    
+    nouveauCommentaire.utilisateur = utilisateur
+    nouveauCommentaire.publication = publication
+
     await Publication.findOneAndUpdate(
-        {_id : publication},
+        { _id: publication },
         {
             $push: {
-                commentaires:[nouveauCommentaire._id]
+                commentaires: [nouveauCommentaire._id]
             }
         }
     )
 
     await Utilisateur.findOneAndUpdate(
-        {_id : utilisateur},
+        { _id: utilisateur },
         {
             $push: {
-                commentaires:[nouveauCommentaire._id]
+                commentaires: [nouveauCommentaire._id]
             }
         }
     )
