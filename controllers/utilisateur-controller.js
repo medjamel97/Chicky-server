@@ -6,20 +6,6 @@ const bcypt = require("bcrypt")
 const nodemailer = require("nodemailer")
 const fs = require("fs")
 
-// Upload image------------------------------------------------------
-const multer = require("multer")
-const upload = multer().single('picture')
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/public/images/profile/')
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-})
-//-------------------------------------------------------------------
-
 ///// LINKS ---------------------------------------------------------
 
 exports.recupererUtilisateurs = async (req, res) => {
@@ -28,11 +14,6 @@ exports.recupererUtilisateurs = async (req, res) => {
 
 exports.inscription = async (req, res) => {
   const { pseudo, email, mdp, nom, prenom, dateNaissance, idPhoto, sexe, score, bio } = req.body
-
-  // upload(req, res, function (err) {
-  //   //console.log("picture", req)
-  //   const imgPath = req.files[0]
-  // })
 
   if (await Utilisateur.findOne({ email })) {
     res.status(403).send({ message: "Utilisateur existe deja !" })
@@ -191,7 +172,7 @@ exports.motDePasseOublie = async (req, res) => {
       expiresIn: "3600000", // in Milliseconds (3600000 = 1 hour)
     })
 
-    envoyerEmailReinitialisation(req.body.email, token, codeDeReinit)
+    envoyerEmailReinitialisation(req.body.email, codeDeReinit)
 
     res.status(200).send({ "message": "L'email de reinitialisation a été envoyé a " + utilisateur.email })
   } else {
@@ -280,7 +261,6 @@ async function creerTokenPourUtilisateur(_id, email) {
 }
 
 async function envoyerEmailReinitialisation(email, codeDeReinit) {
-  // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -315,7 +295,6 @@ async function envoyerEmailReinitialisation(email, codeDeReinit) {
 }
 
 async function envoyerEmailDeConfirmation(email, token) {
-  // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -333,7 +312,7 @@ async function envoyerEmailDeConfirmation(email, token) {
     }
   })
 
-  const urlDeConfirmation = "http://localhost:3000/api.chicky.com/utilisateur/confirmation/" + token
+  const urlDeConfirmation = "http://localhost:3000/api/utilisateur/confirmation/" + token
 
   const mailOptions = {
     from: 'chicky.app@gmail.com',

@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const PublicationController = require("../controllers/publication-controller")
-const upload = require('../middlewares/storage');
+const upload = require('../middlewares/storage-videos');
 
   /**
   * @swagger
@@ -44,7 +44,8 @@ router.route("/")
  *       400:
  *         description: utilisateur error
  */
-router.post("/", upload.single('image'), PublicationController.ajouterPublication)
+router.post("/", upload.single('video'), PublicationController.ajouterPublication)
+
 /**
   * @swagger
  

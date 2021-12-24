@@ -23,8 +23,6 @@ router.get("/", UtilisateurController.recupererUtilisateurs)
 
  /**
   * @swagger
- 
-
  * /api/utilisateur/inscription:
  *   description: The utilisateurs managing API
  *   get:
@@ -46,10 +44,9 @@ router.get("/", UtilisateurController.recupererUtilisateurs)
  *         description: utilisateur error
  */
 router.post("/inscription", UtilisateurController.inscription)
+
 /**
   * @swagger
- 
-
  * /api/utilisateur/connexion:
  *   description: The utilisateurs managing API
  *   post:

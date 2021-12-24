@@ -12,6 +12,8 @@ app.use(morgan('combined'))
 
 app.use(express.static('public'));  
 app.use('/img', express.static('uploads/images'));
+app.use('/vid', express.static('uploads/videos'));
+
 //*************************   swag */
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
