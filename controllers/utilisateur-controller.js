@@ -59,7 +59,6 @@ exports.connexion = async (req, res) => {
       expiresIn: "36000000",
     })
 
-
     if (!utilisateur.isVerified) {
       res.status(200).send({ utilisateur, message: "email non verifié" })
     } else {

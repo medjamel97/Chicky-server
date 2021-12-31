@@ -4,8 +4,8 @@ exports.recupererToutPublication = async (req, res) => {
     res.send({ publication: await Publication.find() })
 }
 
-exports.recupererPublication = async (req, res) => {
-    res.send({ publication: await Publication.findById(req.body._id) })
+exports.recupererMesPublication = async (req, res) => {
+    res.send({ publications: await Publication.find({ "user": req.body.user }) })
 }
 
 exports.ajouterPublication = async (req, res) => {

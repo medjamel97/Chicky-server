@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 const ConversationSchema = new mongoose.Schema(
   {
     dernierMessage : {type: String}, 
+    dateDernierMessage : {type: Date}, 
     envoyeur : {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Utilisateur"

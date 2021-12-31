@@ -4,10 +4,14 @@ const MessageSchema = new mongoose.Schema(
   {
     description: { type: String },
     date: { type: Date, default: Date.now },
-    conversation : [{
+    conversationEnvoyeur : {
       type : mongoose.Schema.Types.ObjectId, 
       ref: "Conversation"
-    }],
+    },
+    conversationRecepteur : {
+      type : mongoose.Schema.Types.ObjectId, 
+      ref: "Conversation"
+    },
     
   },
   {

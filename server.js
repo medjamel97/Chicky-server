@@ -61,8 +61,7 @@ app.use("/api/utilisateur", require("./routes/utilisateur-route"))
 app.use("/api/publication", require("./routes/publication-route"))
 app.use("/api/commentaire", require("./routes/commentaire-route"))
 app.use("/api/evaluation", require("./routes/evaluation-route"))
-app.use("/api/conversation", require("./routes/conversation-route"))
-app.use("/api/message", require("./routes/message-route"))
+app.use("/api/messagerie", require("./routes/messagerie-route"))
 
 mongoose.Promise = global.Promise
 mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true })

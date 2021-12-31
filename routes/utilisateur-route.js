@@ -72,8 +72,6 @@ router.post("/connexion", UtilisateurController.connexion)
 router.post("/connexionAvecReseauSocial", UtilisateurController.connexionAvecReseauSocial)
 /**
   * @swagger
- 
-
  * /api/utilisateur/recupererUtilisateurParToken:
  *   description: The utilisateurs managing API
  *   post:
@@ -92,10 +90,9 @@ router.post("/connexionAvecReseauSocial", UtilisateurController.connexionAvecRes
  *         description: utilisateur error
  */
 router.post("/recupererUtilisateurParToken", UtilisateurController.recupererUtilisateurParToken)
+
 /**
   * @swagger
- 
-
  * /api/utilisateur/envoyerConfirmationEmail:
  *   description: The utilisateurs managing API
  *   post:
@@ -116,8 +113,6 @@ router.post("/recupererUtilisateurParToken", UtilisateurController.recupererUtil
 router.post("/envoyerConfirmationEmail", UtilisateurController.envoyerConfirmationEmail)
 /**
   * @swagger
- 
-
  * /api/utilisateur/confirmation/:token:
  *   description: The utilisateurs managing API
  *   get:
@@ -173,8 +168,6 @@ router.post("/photo-profil", upload.single('image'),UtilisateurController.change
 router.put("/modifierProfil", UtilisateurController.modifierProfil)
 /**
   * @swagger
- 
-
  * /api/utilisateur/supprimer:
  *   description: The utilisateurs managing API
  *   delete:

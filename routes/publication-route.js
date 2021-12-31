@@ -3,25 +3,28 @@ const router = express.Router()
 const PublicationController = require("../controllers/publication-controller")
 const upload = require('../middlewares/storage-videos');
 
-  /**
-  * @swagger
- * /api/publication:
- *   description: The publications managing API
- *   get:
- *     summary: Returns the list of all the conversations
- *     tags: [Publication]
+/**
+* @swagger
+* /api/publication:
+*   description: The publications managing API
+*   get:
+*     summary: Returns the list of all the conversations
+*     tags: [Publication]
 *     responses:
- *       200:
- *         description: The list publication
- *         content:
- *           application/json:
- *       400:
- *         description: publication error
- */
+*       200:
+*         description: The list publication
+*         content:
+*           application/json:
+*       400:
+*         description: publication error
+*/
 router.route("/")
-    .get(PublicationController.recupererToutPublication)
-    .put(PublicationController.modifierPublication)
-    .delete(PublicationController.supprimerPublication)
+  .get(PublicationController.recupererToutPublication)
+  .put(PublicationController.modifierPublication)
+  .delete(PublicationController.supprimerPublication)
+
+
+router.route("/mes").post(PublicationController.recupererMesPublication)
 
 /**
   * @swagger
