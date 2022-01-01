@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const UtilisateurController = require("../controllers/utilisateur-controller")
-const upload = require('../middlewares/storage');
+const upload = require('../middlewares/storage-images');
 
  /**
   * @swagger
@@ -18,7 +18,6 @@ const upload = require('../middlewares/storage');
  *       400:
  *         description: utilisateur error
  */
-
 router.get("/", UtilisateurController.recupererUtilisateurs)
 
  /**
@@ -110,6 +109,7 @@ router.post("/recupererUtilisateurParToken", UtilisateurController.recupererUtil
  *       400:
  *         description: utilisateur error
  */
+
 router.post("/envoyerConfirmationEmail", UtilisateurController.envoyerConfirmationEmail)
 /**
   * @swagger

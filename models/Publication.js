@@ -16,11 +16,6 @@ const PublicationSchema = new mongoose.Schema(
       ref: "Commentaire"
     }],
 
-    jaimes : [{
-      type : mongoose.Schema.Types.ObjectId, 
-      ref: "Jaime"
-    }],
-
     evaluations : [{
       type : mongoose.Schema.Types.ObjectId, 
       ref: "Evaluation"

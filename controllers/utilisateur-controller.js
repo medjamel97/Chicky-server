@@ -13,7 +13,7 @@ exports.recupererUtilisateurs = async (req, res) => {
 }
 
 exports.inscription = async (req, res) => {
-  const { pseudo, email, mdp, nom, prenom, dateNaissance, idPhoto, sexe, score, bio } = req.body
+  const { pseudo, email, mdp, nom, prenom, dateNaissance, idPhoto, sexe, score, bio, role } = req.body
 
   if (await Utilisateur.findOne({ email })) {
     res.status(403).send({ message: "Utilisateur existe deja !" })
@@ -31,6 +31,7 @@ exports.inscription = async (req, res) => {
     nouveauUtilisateur.score = score
     nouveauUtilisateur.bio = bio
     nouveauUtilisateur.isVerified = false
+    nouveauUtilisateur.role = role
 
     nouveauUtilisateur.save()
 

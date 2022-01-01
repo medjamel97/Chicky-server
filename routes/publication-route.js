@@ -19,17 +19,15 @@ const upload = require('../middlewares/storage-videos');
 *         description: publication error
 */
 router.route("/")
-  .get(PublicationController.recupererToutPublication)
-  .put(PublicationController.modifierPublication)
-  .delete(PublicationController.supprimerPublication)
+  .get(PublicationController.recupererTout)
+  .put(PublicationController.modifier)
+  .delete(PublicationController.supprimer)
 
 
-router.route("/mes").post(PublicationController.recupererMesPublication)
+router.route("/mes").post(PublicationController.recupererMes)
 
 /**
   * @swagger
- 
-
  * /api/publication:
  *   description: Creer publication
  *   post:
@@ -47,12 +45,10 @@ router.route("/mes").post(PublicationController.recupererMesPublication)
  *       400:
  *         description: utilisateur error
  */
-router.post("/", upload.single('video'), PublicationController.ajouterPublication)
+router.post("/", upload.single('video'), PublicationController.ajouter)
 
 /**
   * @swagger
- 
-
  * /api/utilisateur/supprimer:
  *   description: The utilisateurs managing API
  *   delete:
@@ -66,12 +62,10 @@ router.post("/", upload.single('video'), PublicationController.ajouterPublicatio
  *       400:
  *         description: publication error
  */
-router.delete("/supprimerTout", PublicationController.supprimerToutPublication)
+router.delete("/supprimerTout", PublicationController.supprimerTout)
 
 /**
   * @swagger
- 
-
  * /api/publication:
  *   description: The publication managing API
  *   put:

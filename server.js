@@ -8,13 +8,14 @@ const bodyParser = require("body-parser")
 const path = require("path");
 const morgan = require("morgan")
 
-app.use(morgan('combined'))
+app.use(morgan('dev'))
 
 app.use(express.static('public'));  
 app.use('/img', express.static('uploads/images'));
 app.use('/vid', express.static('uploads/videos'));
+app.use('/mp3', express.static('uploads/musique'));
 
-//*************************   swag */
+//************************* SWAGGER */
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -51,17 +52,18 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-
+//************************* END SWAGGER */
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use("/api/utilisateur", require("./routes/utilisateur-route"))
+app.use("/api/messagerie", require("./routes/messagerie-route"))
 app.use("/api/publication", require("./routes/publication-route"))
 app.use("/api/commentaire", require("./routes/commentaire-route"))
 app.use("/api/evaluation", require("./routes/evaluation-route"))
-app.use("/api/messagerie", require("./routes/messagerie-route"))
+app.use("/api/musique", require("./routes/musique-route"))
+app.use("/api/jaime", require("./routes/jaime-route"))
 
 mongoose.Promise = global.Promise
 mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -86,5 +88,12 @@ if (process.env.NODE_ENV === "production") {
     )
   })
 }
+
+app.use((err, req, res, next) => {
+  res.locals.error = err;
+  const status = err.status || 500;
+  res.status(status);
+  res.render('error');
+});
 
 app.listen(port, () => console.log(`Server up and running on port ${port} !`))

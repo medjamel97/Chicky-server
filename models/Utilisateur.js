@@ -13,23 +13,7 @@ const UtilisateurSchema = new mongoose.Schema(
     score: { type: Number },
     bio: { type: String },
     isVerified: { type: Boolean },
-
-    publications : [{
-      type : mongoose.Schema.Types.ObjectId, 
-      ref: "Publication"
-    }],
-    conversations : [{
-      type : mongoose.Schema.Types.ObjectId, 
-      ref: "Conversation"
-    }],
-    commentaires : [{
-      type : mongoose.Schema.Types.ObjectId, 
-      ref: "Commentaire"
-    }],
-    jaimes : [{
-      type : mongoose.Schema.Types.ObjectId, 
-      ref: "Jaime"
-    }],
+    role: { type: String }
 
   },
   {
