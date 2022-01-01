@@ -1,6 +1,5 @@
 const Jaime = require("../models/Jaime");
 const Musique = require("../models/Musique");
-const Musique = require("../models/Musique");
 
 exports.ajouterOuSupprimer = async (req, res) => {
   const { idUtilisateur, idMusique } = req.body;
