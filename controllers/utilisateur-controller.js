@@ -73,7 +73,7 @@ exports.connexion = async (req, res) => {
 
 exports.connexionAvecReseauSocial = async (req, res) => {
 
-  const { email, nom } = req.body
+  const { email, nom, prenom } = req.body
 
   if (email === "") {
     res.status(403).send({ message: "error please provide an email" })
@@ -87,6 +87,7 @@ exports.connexionAvecReseauSocial = async (req, res) => {
       utilisateur = new Utilisateur()
 
       utilisateur.nom = nom
+      utilisateur.prenom = prenom
       utilisateur.email = email
       //utilisateur.address =
       //utilisateur.password =

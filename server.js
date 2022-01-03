@@ -64,6 +64,7 @@ app.use("/api/commentaire", require("./routes/commentaire-route"))
 app.use("/api/evaluation", require("./routes/evaluation-route"))
 app.use("/api/musique", require("./routes/musique-route"))
 app.use("/api/jaime", require("./routes/jaime-route"))
+app.use("/api/enregistrement", require("./routes/enregistrement-route"))
 
 mongoose.Promise = global.Promise
 mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true })

@@ -75,6 +75,6 @@ exports.supprimerTout = async (req, res) => {
       return res.status(201).send({ message: "success" });
     })
     .catch(function (error) {
-      res.status(500).send("one of the queries failed", error);
+      res.status(500).send(error);
     });
 };

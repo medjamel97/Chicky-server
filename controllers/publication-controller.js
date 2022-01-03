@@ -43,13 +43,14 @@ exports.modifier = async (req, res) => {
 exports.supprimer = async (req, res) => {
   await Publication.findById(req.body._id)
     .then(function (publication) {
+      publication.remove();
+      
       fs.unlink("./uploads/images/" + publication.idPhoto, (err) => {
         if (err) {
           console.error(err);
           return;
         }
       });
-      publication.remove();
 
       return res.status(201).send({ message: "success" });
     })
@@ -59,9 +60,12 @@ exports.supprimer = async (req, res) => {
 };
 
 exports.supprimerTout = async (req, res) => {
-    Publication.find({})
+    await Publication.find({})
       .then(function (publications) {
         publications.forEach(function (publication) {
+  
+          publication.remove();
+
           fs.unlink("./uploads/images/" + publication.idPhoto, (err) => {
             if (err) {
               console.error(err);
@@ -70,7 +74,7 @@ exports.supprimerTout = async (req, res) => {
           });
   
           fs.unlink(
-            "./uploads/publication/" + publication.emplacementImageAlbum,
+            "./uploads/images/" + publication.emplacementImageAlbum,
             (err) => {
               if (err) {
                 console.error(err);
@@ -78,13 +82,11 @@ exports.supprimerTout = async (req, res) => {
               }
             }
           );
-  
-          publication.remove();
         });
   
         return res.status(201).send({ message: "success" });
       })
       .catch(function (error) {
-        res.status(500).send("one of the queries failed", error);
+        res.status(500).send(error);
       });
   };
