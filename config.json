@@ -1,4 +1,4 @@
-{
-  "database" : "mongodb+srv://user:user@cluster0.hrnwq.mongodb.net/Cluster0?retryWrites=true&w=majority",
+{ 
+  "database" : "mongodb+srv://jamel:jamel-cred@cluster0.eimtw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   "token_secret" : "this-is-the-token-encryption-key"
 }
