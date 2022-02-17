@@ -30,7 +30,7 @@ exports.inscription = async (req, res) => {
     nouveauUtilisateur.sexe = sexe
     nouveauUtilisateur.score = score
     nouveauUtilisateur.bio = bio
-    nouveauUtilisateur.isVerified = false
+    nouveauUtilisateur.isVerified = true
     nouveauUtilisateur.role = role
 
     nouveauUtilisateur.save()
@@ -41,7 +41,7 @@ exports.inscription = async (req, res) => {
       expiresIn: "60000", // in Milliseconds (3600000 = 1 hour)
     })
 
-    sendConfirmationEmail(email, token)
+    //sendConfirmationEmail(email, token)
     res.status(201).send({
       message: "success",
       utilisateur: nouveauUtilisateur,
@@ -49,6 +49,26 @@ exports.inscription = async (req, res) => {
     })
   }
 }
+
+exports.setUserPassword = async (req, res) => {
+  const { email, mdp } = req.body
+
+  const utilisateur = await Utilisateur.findOne({ email })
+
+  if (utilisateur) {
+    utilisateur.mdp = await bcypt.hash(mdp, 10)
+
+    utilisateur.save()
+  
+    return res.status(201).send({
+      message: "success"
+    })
+  }
+  res.status(201).send({
+    message: "can't find user"
+  })
+}
+
 
 exports.connexion = async (req, res) => {
   const { email, mdp } = req.body

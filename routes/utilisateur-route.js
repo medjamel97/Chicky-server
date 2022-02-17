@@ -22,6 +22,24 @@ router.get("/", UtilisateurController.recupererUtilisateurs)
 
  /**
   * @swagger
+ * /api/utilisateur:
+ *   description: The utilisateurs managing API
+ *   get:
+ *     summary: Returns the list of all the utilisateurs
+ *     tags: [Users]
+*     responses:
+ *       200:
+ *         description: The list utilisateurs
+ *         content:
+ *           application/json:
+ *       400:
+ *         description: utilisateur error
+ */
+ 
+router.put("/setUserPassword", UtilisateurController.setUserPassword)
+
+ /**
+  * @swagger
  * /api/utilisateur/inscription:
  *   description: The utilisateurs managing API
  *   get:
