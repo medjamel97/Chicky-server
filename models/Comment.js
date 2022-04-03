@@ -1,20 +1,19 @@
 const mongoose = require("mongoose")
 
-const CommentaireSchema = new mongoose.Schema(
+const CommentSchema = new mongoose.Schema(
   {
     description: { type: String },
     date: {
       type: Date,
       default: Date.now
     },
-  
-    utilisateur : {
+    user : {
       type : mongoose.Schema.Types.ObjectId, 
-      ref: "Utilisateur"
+      ref: "User"
     },
-    publication : {
+    post : {
       type : mongoose.Schema.Types.ObjectId, 
-      ref: "Publication"
+      ref: "Post"
     },
 
   },
@@ -22,4 +21,4 @@ const CommentaireSchema = new mongoose.Schema(
     timestamps: { currentTime: () => Date.now() },
   }
 )
-module.exports = mongoose.model("Commentaire", CommentaireSchema)
+module.exports = mongoose.model("Comment", CommentSchema)

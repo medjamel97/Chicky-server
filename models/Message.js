@@ -4,15 +4,14 @@ const MessageSchema = new mongoose.Schema(
   {
     description: { type: String },
     date: { type: Date, default: Date.now },
-    conversationEnvoyeur : {
+    senderConversation : {
       type : mongoose.Schema.Types.ObjectId, 
       ref: "Conversation"
     },
-    conversationRecepteur : {
+    receiverConversation : {
       type : mongoose.Schema.Types.ObjectId, 
       ref: "Conversation"
     },
-    
   },
   {
     timestamps: { currentTime: () => Date.now() },

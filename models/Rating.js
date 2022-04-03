@@ -1,21 +1,19 @@
 const mongoose = require("mongoose")
 
-const EvaluationSchema = new mongoose.Schema(
+const RatingSchema = new mongoose.Schema(
     {
         note : {type: Number}, 
-
-        utilisateur: {
+        user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Utilisateur"
+            ref: "User"
         },
-        publication: {
+        post: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Publication"
+            ref: "Post"
         },
-
     },
     {
         timestamps: { currentTime: () => Date.now() },
     }
 )
-module.exports = mongoose.model("Evaluation", EvaluationSchema)
+module.exports = mongoose.model("Rating", RatingSchema)
