@@ -1,12 +1,12 @@
 const Record = require("../models/Record")
 
 exports.getAll = async (req, res) => {
-    res.status(201).send({ "records": await Record.find() })
+    res.status(200).send({ "records": await Record.find() })
 }
 
 exports.recupererParLieu = async (req, res) => {
     console.log("le lieu : " + req.body.lieu)
-    res.status(201).send({ "records": await Record.find({ lieu: req.body.lieu }).populate("user") })
+    res.status(200).send({ "records": await Record.find({ lieu: req.body.lieu }).populate("user") })
 }
 
 exports.addOuMettreAjour = async (req, res) => {
@@ -30,7 +30,7 @@ exports.addOuMettreAjour = async (req, res) => {
             }
         )
 
-        res.status(201).send({ message: "updated" })
+        res.status(200).send({ message: "updated" })
     } else {
         record = new Record()
         record.date = Date.now()
@@ -39,6 +39,6 @@ exports.addOuMettreAjour = async (req, res) => {
 
         record.save()
 
-        res.status(201).send({ message: "added" })
+        res.status(200).send({ message: "added" })
     }
 }

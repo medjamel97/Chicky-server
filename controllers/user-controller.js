@@ -92,7 +92,7 @@ exports.loginWithSocial = async (req, res) => {
     // token creation
     const token = generateUserToken(user)
 
-    res.status(201).send({ message: "success", user, token: token })
+    res.status(200).send({ message: "success", user, token: token })
   }
 }
 

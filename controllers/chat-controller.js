@@ -36,7 +36,7 @@ exports.creerNouvelleConversation = async (req, res) => {
     senderConversation.lastMessageDate = Date()
     senderConversation.save()
 
-    res.status(201).send({ message: "success" })
+    res.status(200).send({ message: "success" })
 }
 
 exports.envoyerMessage = async (req, res) => {
@@ -68,12 +68,12 @@ exports.envoyerMessage = async (req, res) => {
     nouveauMessage.receiverConversation = receiverConversation._id
     nouveauMessage.save()
 
-    res.status(201).send({ message: "success", newMessage: nouveauMessage })
+    res.status(200).send({ message: "success", newMessage: nouveauMessage })
 }
 
 exports.deleteMessage = async (req, res) => {
     const message = await Message.findById(req.body._id).remove()
-    res.status(201).send({ message: "success", message: message })
+    res.status(200).send({ message: "success", message: message })
 }
 
 exports.deleteAll = async (req, res) => {

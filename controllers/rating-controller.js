@@ -31,7 +31,7 @@ exports.addRating = async (req, res) => {
 
     newRating.save()
 
-    res.status(201).send({ message: "success", rating: newRating })
+    res.status(200).send({ message: "success", rating: newRating })
 }
 
 exports.editRating = async (req, res) => {
@@ -45,12 +45,12 @@ exports.editRating = async (req, res) => {
             }
         }
     )
-    res.status(201).send({ message: "success", rating: rating })
+    res.status(200).send({ message: "success", rating: rating })
 }
 
 exports.deleteRating = async (req, res) => {
     const rating = await Rating.findById(req.body._id).remove()
-    res.status(201).send({ message: "success", rating: rating })
+    res.status(200).send({ message: "success", rating: rating })
 }
 
 exports.deleteAllRating = async (req, res) => {

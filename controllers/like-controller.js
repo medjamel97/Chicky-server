@@ -39,5 +39,5 @@ exports.addOuSupprimer = async (req, res) => {
     like.save()
   }
 
-  res.status(201).send({ message: "success" })
+  res.status(200).send({ message: "success" })
 }

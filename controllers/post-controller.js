@@ -1,7 +1,8 @@
 let Post = require("../models/Post")
+const fs = require("fs")
 
 exports.getAll = async (req, res) => {
-  res.send({ post: await Post.find() })
+  res.send({ posts: await Post.find() })
 }
 
 exports.getMy = async (req, res) => {
@@ -11,14 +12,19 @@ exports.getMy = async (req, res) => {
 exports.add = async (req, res) => {
   const { title, description, userId } = req.body
 
+  let videoFilename;
+  if (req.file) {
+    videoFilename = req.file.filename
+  }
+
   let post = await new Post({
     title,
     description,
-    videoFilename: req.file.filename,
+    videoFilename,
     userId,
   }).save()
 
-  return res.status(201).send({ message: "Post added successfully", post });
+  return res.status(200).send({ message: "Post added successfully", post });
 }
 
 exports.edit = async (req, res) => {
@@ -33,7 +39,7 @@ exports.edit = async (req, res) => {
     }
   )
 
-  res.status(201).send({ message: "Post edited successfully", post })
+  res.status(200).send({ message: "Post edited successfully", post })
 }
 
 exports.delete = async (req, res) => {
@@ -43,10 +49,11 @@ exports.delete = async (req, res) => {
       deleteFile("./uploads/videos/" + post.videoFilename)
       post.remove()
 
-      res.status(201).send({ message: "Post deleted successfully" })
+      res.status(200).send({ message: "Post deleted successfully" })
     })
     .catch(function (error) {
-      res.status(500).send(error)
+      console.log(error)
+      res.status(500).send({ error })
     })
 }
 
@@ -58,7 +65,7 @@ exports.deleteAll = async (_req, res) => {
         deleteFile("./uploads/videos/" + post.videoFilename)
         post.remove()
 
-        res.status(201).send({ message: "All posts have been deleted" })
+        res.status(200).send({ message: "All posts have been deleted" })
       })
         .catch(function (error) {
           res.status(500).send(error)

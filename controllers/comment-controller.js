@@ -42,7 +42,7 @@ exports.addComment = async (req, res) => {
 
   nouveauComment.save()
 
-  res.status(201).send({ message: "success", comment: nouveauComment })
+  res.status(200).send({ message: "success", comment: nouveauComment })
 }
 
 exports.editComment = async (req, res) => {
@@ -56,12 +56,12 @@ exports.editComment = async (req, res) => {
       },
     }
   )
-  res.status(201).send({ message: "success", comment: comment })
+  res.status(200).send({ message: "success", comment: comment })
 }
 
 exports.deleteComment = async (req, res) => {
   const comment = await Comment.findById(req.body._id).remove()
-  res.status(201).send({ message: "success", comment: comment })
+  res.status(200).send({ message: "success", comment: comment })
 }
 
 exports.deleteAllComment = async (req, res) => {

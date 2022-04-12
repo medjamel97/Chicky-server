@@ -20,7 +20,7 @@ exports.add = async (req, res) => {
 
   newMusic.save()
 
-  res.status(201).send({ message: "success", music: newMusic })
+  res.status(200).send({ message: "success", music: newMusic })
 }
 
 exports.delete = async (req, res) => {
@@ -42,7 +42,7 @@ exports.delete = async (req, res) => {
 
       music.remove()
 
-      return res.status(201).send({ message: "success" })
+      return res.status(200).send({ message: "success" })
     }).catch(function (error) {
       res.status(500).send(error)
     })
@@ -72,7 +72,7 @@ exports.deleteAll = async (req, res) => {
         music.remove()
       })
 
-      return res.status(201).send({ message: "success" })
+      return res.status(200).send({ message: "success" })
     })
     .catch(function (error) {
       res.status(500).send(error)
