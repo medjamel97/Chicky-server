@@ -12,4 +12,6 @@ router.route("/")
 router.route("/my").post(PostController.getMy)
 router.delete("/all", PostController.deleteAll)
 
+router.route("/gen").get(PostController.gen)
+
 module.exports = router

@@ -21,8 +21,8 @@ router
   )
   .delete(MusicController.delete)
 
-router.post("/par-id", MusicController.recupererParId)
+router.post("/one", MusicController.recupererParId)
 
-router.delete("/tout", MusicController.deleteAll)
+router.delete("/all", MusicController.deleteAll)
 
 module.exports = router

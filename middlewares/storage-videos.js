@@ -1,13 +1,14 @@
 
 const multer = require("multer")
+var path = require('path')
 
 const storage = multer.diskStorage({
-  destination: function (request, file, callback) {
+  destination: function (_request, _file, callback) {
     callback(null, './uploads/videos')
   },
-  filename: function (request, file, callback) {
-    callback(null, Date.now() + file.originalname)
+  filename: function (_request, file, callback) {
+    callback(null, "VIDEO_" + Date.now() + path.extname(file.originalname))
   }
 })
 
-module.exports =  multer({ storage: storage })
+module.exports = multer({ storage: storage })

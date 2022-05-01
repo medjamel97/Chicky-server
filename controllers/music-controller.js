@@ -10,13 +10,13 @@ exports.recupererParId = async (req, res) => {
 }
 
 exports.add = async (req, res) => {
-  const { titre, artiste } = req.body
+  const { title, artist } = req.body
 
   const newMusic = new Music()
-  newMusic.titre = titre
-  newMusic.artiste = artiste
-  newMusic.emplacementFichier = req.files.music[0].filename
-  newMusic.emplacementImageAlbum = req.files.image[0].filename
+  newMusic.title = title
+  newMusic.artist = artist
+  newMusic.filename = req.files.music[0].filename
+  newMusic.imageFilename = req.files.image[0].filename
 
   newMusic.save()
 

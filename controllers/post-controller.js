@@ -81,3 +81,15 @@ function deleteFile(fullPath) {
     }
   });
 }
+
+const gify = require('gify')
+
+exports.gen = async (_req, res) => {
+
+  gify('out.mp4', 'out.gif', function (err) {
+    if (err) throw err;
+  })
+
+  res.send("HI")
+}
+

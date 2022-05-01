@@ -15,9 +15,9 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'))
-app.use('/img', express.static('uploads/images'))
-app.use('/vid', express.static('uploads/videos'))
-app.use('/mp3', express.static('uploads/music'))
+app.use('/images-files', express.static('uploads/images'))
+app.use('/videos-files', express.static('uploads/videos'))
+app.use('/music-files', express.static('uploads/music'))
 
 // DATABASE
 mongoose.Promise = global.Promise
