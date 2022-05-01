@@ -13,6 +13,7 @@ exports.add = async (req, res) => {
   const { title, artist } = req.body
 
   const newMusic = new Music()
+  
   newMusic.title = title
   newMusic.artist = artist
   newMusic.filename = req.files.music[0].filename
