@@ -42,8 +42,6 @@ app.use("/like", require("./routes/like-route"))
 app.use("/record", require("./routes/record-route"))
 
 // SERVER START
-app.listen(port, () => console.log(`Server up and running on port ${port} !`))
-
 const server = app.listen(port, () => {
   const port = server.address().port;
   console.log(`Server running on port ${port}`);
