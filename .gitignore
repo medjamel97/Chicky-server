@@ -82,3 +82,6 @@ typings/
 # FuseBox cache
 .fusebox/
 package-lock.json
+
+.idea/
+package-lock.json
