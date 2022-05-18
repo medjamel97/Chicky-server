@@ -62,13 +62,13 @@ exports.envoyerMessage = async (req, res) => {
     receiverConversation.lastMessageDate = Date()
     receiverConversation.save()
 
-    const nouveauMessage = new Message()
-    nouveauMessage.description = description
-    nouveauMessage.senderConversation = senderConversation._id
-    nouveauMessage.receiverConversation = receiverConversation._id
-    nouveauMessage.save()
+    const newMessage = new Message()
+    newMessage.description = description
+    newMessage.senderConversation = senderConversation._id
+    newMessage.receiverConversation = receiverConversation._id
+    newMessage.save()
 
-    res.status(200).send({ message: "success", newMessage: nouveauMessage })
+    res.status(200).send({ message: "success", newMessage: newMessage })
 }
 
 exports.deleteMessage = async (req, res) => {

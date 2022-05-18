@@ -35,12 +35,14 @@ exports.register = async (req, res) => {
       imageFilename,
       isVerified: false,
       role: "ROLE_USER",
-    }).save()
+    })
+
+    user.save();
 
     // token creation
     const token = generateUserToken(user)
 
-    doSendConfirmationEmail(email, token, req.protocol)
+    await doSendConfirmationEmail(email, token, req.protocol)
 
     res.status(200).send({
       message: "success",
@@ -161,9 +163,7 @@ exports.forgotPassword = async (req, res) => {
 
   if (user) {
     // token creation
-    const token = generateUserToken(user)
-
-    sendOTP(req.body.email, resetCode)
+    await sendOTP(req.body.email, resetCode)
 
     res.status(200).send({
       message: "L'email de reinitialisation a été envoyé a " + user.email,

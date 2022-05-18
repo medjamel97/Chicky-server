@@ -35,10 +35,9 @@ mongoose.connect(process.env.MONGODB_DB_URL, { useNewUrlParser: true, useUnified
 app.use("/user", require("./routes/user-route"))
 app.use("/chat", require("./routes/chat-route"))
 app.use("/post", require("./routes/post-route"))
-app.use("/comment", require("./routes/comment-route"))
-app.use("/rating", require("./routes/rating-route"))
 app.use("/music", require("./routes/music-route"))
 app.use("/like", require("./routes/like-route"))
+app.use("/comment", require("./routes/comment-route"))
 app.use("/record", require("./routes/record-route"))
 
 // SERVER START
