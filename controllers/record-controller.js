@@ -35,7 +35,7 @@ exports.addOrUpdate = async (req, res) => {
         record = await Record.findOne({
             user: idUser,
             locationName
-        })
+        }).populate("user");
         res.status(200).send({message: "updated", record})
     } else {
         record = new Record()
@@ -46,8 +46,6 @@ exports.addOrUpdate = async (req, res) => {
         record.lattitude = lattitude
 
         record.save()
-
-        res.status(200).send({message: "added", record})
     }
 }
 

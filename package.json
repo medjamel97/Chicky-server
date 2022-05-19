@@ -28,7 +28,8 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
     "nodemailer": "^6.7.0",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "twig": "^1.15.4"
   },
   "repository": {
     "type": "git",

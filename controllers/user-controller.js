@@ -6,7 +6,7 @@ const os = require("os")
 
 exports.get = async (req, res) => {
   res.send({ user: await User.findById(req.body._id) })
-console.log(req.body._id)
+  console.log(req.body._id)
 }
 
 exports.getAll = async (req, res) => {
