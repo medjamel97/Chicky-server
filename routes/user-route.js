@@ -16,7 +16,7 @@ router.put("/update-profile", upload.single('picture'), userController.updatePro
 router.put("/update-password", userController.updatePassword);
 
 router.route("/one")
-    .get(userController.get)
+    .post(userController.get)
     .delete(userController.delete);
 
 router.route("/all").get(userController.getAll).delete(userController.deleteAll);
