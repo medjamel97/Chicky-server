@@ -2,11 +2,11 @@ let Post = require("../models/Post")
 const fs = require("fs")
 
 exports.getAll = async (req, res) => {
-  res.send({ posts: await Post.find() })
+  res.send({ posts: await Post.find().populate("likes comments user") })
 }
 
 exports.getMy = async (req, res) => {
-  res.send({ posts: await Post.find({ user: req.body.user }) })
+  res.send({ posts: await Post.find({ user: req.body.user }).populate("likes comments user") })
 }
 
 exports.add = async (req, res) => {
@@ -28,13 +28,14 @@ exports.add = async (req, res) => {
 }
 
 exports.edit = async (req, res) => {
-  const { _id, title, description } = req.body
+  const { _id, title, description, user} = req.body
   let post = await Post.findOneAndUpdate(
     { _id: _id },
     {
       $set: {
         title,
-        description
+        description,
+        user
       },
     }
   )

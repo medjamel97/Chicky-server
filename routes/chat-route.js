@@ -8,6 +8,7 @@ router.post("/my-conversations", MessageController.getMyConversations)
 router.post("/my-messages", MessageController.getMyMessages)
 router.post("/creer-conversation", MessageController.creerNouvelleConversation)
 router.post("/envoyer-message", MessageController.envoyerMessage)
+router.delete("/", MessageController.deleteConversation)
 router.delete("/deleteAll", MessageController.deleteAll)
 
 module.exports = router

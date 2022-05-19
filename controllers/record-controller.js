@@ -1,44 +1,67 @@
 const Record = require("../models/Record")
 
 exports.getAll = async (req, res) => {
-    res.status(200).send({ "records": await Record.find() })
+    res.status(200).send({"records": await Record.find().populate("user")})
 }
 
-exports.recupererParLieu = async (req, res) => {
-    console.log("le lieu : " + req.body.lieu)
-    res.status(200).send({ "records": await Record.find({ lieu: req.body.lieu }).populate("user") })
+exports.getByLocation = async (req, res) => {
+    console.log("locationName : " + req.body.locationName)
+    res.status(200).send({"records": await Record.find({locationName: req.body.locationName}).populate("user")})
 }
 
-exports.addOuMettreAjour = async (req, res) => {
-    const { idUser, lieu } = req.body
+exports.addOrUpdate = async (req, res) => {
+    const {idUser, locationName, longitude, lattitude} = req.body
 
     let record = await Record.findOne({
         user: idUser,
-        lieu: lieu,
+        locationName
     })
 
     if (record) {
         await Record.findOneAndUpdate(
             {
                 user: idUser,
-                lieu: lieu,
+                locationName
             },
             {
                 $set: {
-                    date: Date.now()
+                    date: Date.now(),
+                    longitude,
+                    lattitude,
                 }
             }
         )
 
-        res.status(200).send({ message: "updated" })
+        record = await Record.findOne({
+            user: idUser,
+            locationName
+        })
+        res.status(200).send({message: "updated", record})
     } else {
         record = new Record()
         record.date = Date.now()
         record.user = idUser
-        record.lieu = lieu
+        record.locationName = locationName
+        record.longitude = longitude
+        record.lattitude = lattitude
 
         record.save()
 
-        res.status(200).send({ message: "added" })
+        res.status(200).send({message: "added", record})
     }
 }
+
+
+exports.deleteAll = async (_req, res) => {
+    await Record.find({})
+        .then(function (records) {
+            records.forEach(function (record) {
+                record.remove()
+                res.status(200).send({message: "All records have been deleted"})
+            })
+                .catch(function (error) {
+                    res.status(500).send(error)
+                })
+        })
+}
+

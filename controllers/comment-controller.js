@@ -1,71 +1,37 @@
-let Comment = require("../models/Comment")
+const Comment = require("../models/Comment")
+const User = require("../models/User")
 const Post = require("../models/Post")
 
-exports.recupererCommentParPost = async (req, res) => {
-    res.send({
-        comment: await Comment.find({
-            post: req.body.post,
-        }).populate("user post"),
-    })
+exports.getAll = async (req, res) => {
+    res.status(200).send({message: "success", "comments": await Comment.find()})
 }
 
-exports.recupererComment = async (req, res) => {
-    res.send({comment: await Comment.findById(req.body._id)})
-}
+exports.add = async (req, res) => {
+    const {idUser, idPost, description} = req.body
 
-exports.addComment = async (req, res) => {
     console.log(req.body)
-    const {description, user, post} = req.body
-
-    const comment = new Comment(
-        description,
-        user,
-        post
-    )
+    let comment = new Comment()
     comment.description = description
-    comment.user = user
-    comment.post = post
+    comment.date = Date.now()
+    comment.user = idUser
+    let user = await User.findById(idUser)
+    comment.post = idPost
 
-    await Post.findOneAndUpdate(
-        {_id: post},
+    let post = await Post.findById(idPost).populate("comments")
+
+    await Post.findByIdAndUpdate({
+            _id: idPost
+        },
         {
             $push: {
-                comments: [comment._id],
+                comments: comment._id,
             },
         }
     )
 
-    await User.findOneAndUpdate(
-        {_id: user},
-        {
-            $push: {
-                comments: [comment._id],
-            },
-        }
-    )
+    await comment.save()
 
-    comment.save()
-
-    res.status(200).send({message: "success", comment: comment})
-}
-
-exports.editComment = async (req, res) => {
-    const {_id, description} = req.body
-
-    let comment = await Comment.findOneAndUpdate(
-        {_id: _id},
-        {
-            $set: {
-                description: description,
-            },
-        }
-    )
-    res.status(200).send({message: "success", comment: comment})
-}
-
-exports.deleteComment = async (req, res) => {
-    const comment = await Comment.findById(req.body._id).remove()
-    res.status(200).send({message: "success", comment: comment})
+    res.status(200).send({message: "success", post})
 }
 
 exports.deleteAllComment = async (req, res) => {
@@ -73,6 +39,6 @@ exports.deleteAllComment = async (req, res) => {
         if (err) {
             return handleError(res, err)
         }
-        return res.status(204).send({message: "Aucun element"})
+        return res.status(204).send({ message: "Aucun element" })
     })
 }

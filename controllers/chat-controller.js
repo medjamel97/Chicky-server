@@ -76,11 +76,16 @@ exports.deleteMessage = async (req, res) => {
     res.status(200).send({ message: "success", message: message })
 }
 
+exports.deleteConversation = async (req, res) => {
+    const conversation = await Conversation.findById(req.body._id).remove()
+    res.status(200).send({ message: "success", conversation })
+}
+
 exports.deleteAll = async (req, res) => {
-    Conversation.remove({}, function (err, conversation) {
+    Conversation.remove({}, function (err) {
         if (err) { return handleError(res, err) }
     })
-    Message.remove({}, function (err, message) {
+    Message.remove({}, function (err) {
         if (err) { return handleError(res, err) }
     })
 

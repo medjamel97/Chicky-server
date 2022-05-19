@@ -3,12 +3,8 @@ const router = express.Router()
 const CommentController = require("../controllers/comment-controller")
 
 router.route("/")
-    .post(CommentController.addComment)
-    .put(CommentController.editComment)
-    .delete(CommentController.deleteComment)
-
-router.post("/par-post", CommentController.recupererCommentParPost)
-
-router.delete("/deleteAll", CommentController.deleteAllComment)
+    .get(CommentController.getAll)
+    .post(CommentController.add)
+    .delete(CommentController.deleteAllComment)
 
 module.exports = router

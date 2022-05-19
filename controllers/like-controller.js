@@ -1,43 +1,51 @@
 const Like = require("../models/Like")
-const Music = require("../models/Music")
+const Post = require("../models/Post")
 
-exports.addOuSupprimer = async (req, res) => {
-  const { idUser, idMusic } = req.body
+exports.getAll = async (req, res) => {
+    res.status(200).send({message: "success", "likes": await Like.find()})
+}
 
-  let like = await Like.findOne({
-    user: idUser,
-    music: idMusic,
-  })
-  let music = await Music.findById(idMusic)
+exports.addOrRemove = async (req, res) => {
+    const {idUser, idPost} = req.body
 
-  if (like) {
-    music.update(
-      { _id: user },
-      {
-        $pull: {
-          likes: [like._id],
-        },
-      }
-    )
+    console.log(req.body)
+    let like = await Like.findOne({idUser, idPost})
+    let post = await Post.findById(idPost)
 
-    like.remove()
-  } else {
-    like = new Like()
-    like.date = Date.now()
-    like.user = idUser
-    like.music = idMusic
+    if (like) {
+        console.log("remove like")
+        await Post.findByIdAndUpdate(
+            {_id: idPost},
+            {
+                $pull: {
+                    likes: [like._id],
+                },
+            }
+        )
 
-    music.update(
-        { _id: user },
-        {
-          $push: {
-            likes: [like._id],
-          },
-        }
-      )
+        await like.remove()
+    } else {
+        console.log("add like")
 
-    like.save()
-  }
+        like = new Like()
+        like.date = Date.now()
+        like.idUser = idUser
+        like.isPost = idPost
 
-  res.status(200).send({ message: "success" })
+        post = await Post.findById(idPost).populate("likes")
+
+        await Post.findByIdAndUpdate({
+                _id: idPost
+            },
+            {
+                $push: {
+                    likes: like._id,
+                },
+            }
+        )
+
+        await like.save()
+    }
+
+    res.status(200).send({message: "success", post})
 }

@@ -257,7 +257,7 @@ async function sendOTP(email, codeDeReinit) {
   sendEmail({
     from: process.env.GMAIL_USER,
     to: email,
-    subject: "Password reset - Kitebi",
+    subject: "Password reset",
     html:
       "<h3>You have requested to reset your password</h3><p>Your reset code is : <b style='color : blue'>" +
       codeDeReinit +

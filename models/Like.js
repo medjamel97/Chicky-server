@@ -3,8 +3,8 @@ const mongoose = require("mongoose")
 const LikeSchema = new mongoose.Schema(
   {
     date: { type: Date, default: Date.now },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    music: { type: mongoose.Schema.Types.ObjectId, ref: "Music" },
+    idUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    isPost: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
   },
   {
     timestamps: { currentTime: () => Date.now() },
