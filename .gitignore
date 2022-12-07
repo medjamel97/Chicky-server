@@ -85,3 +85,8 @@ package-lock.json
 
 .idea/
 package-lock.json
+
+# Uploads
+uploads/images
+uploads/music
+uploads/videos

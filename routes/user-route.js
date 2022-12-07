@@ -1,24 +1,27 @@
 const express = require("express")
 const router = express.Router()
-const userController = require("../controllers/user-controller");
-const upload = require('../middlewares/storage-images');
+const controller = require("../controllers/user-controller");
+const multipart = require('connect-multiparty')
 
+// BASIC
 router.route("/")
-    .get(userController.getAll)
+    .get(controller.getAll)
+router.route("/one/:userId")
+    .get(controller.get);
 
-router.post("/register", upload.single('picture'), userController.register);
-router.post("/login", userController.login);
-router.post("/login-with-social", userController.loginWithSocial);
-router.post("/send-confirmation-email", userController.sendConfirmationEmail);
-router.get("/confirmation/:token", userController.confirmation);
-router.post("/forgot-password", userController.forgotPassword);
-router.put("/update-profile", upload.single('picture'), userController.updateProfile);
-router.put("/update-password", userController.updatePassword);
+// AUTH
+router.post("/register", multipart({}), controller.register);
+router.post("/login", controller.login);
+//router.post("/login-with-social", controller.loginWithSocial);
 
-router.route("/one")
-    .post(userController.get)
-    .delete(userController.delete);
+// UPDATE
+router.put("/update-profile", multipart({}), controller.updateProfile);
+router.put("/update-password", controller.updatePassword);
 
-router.route("/all").get(userController.getAll).delete(userController.deleteAll);
+// FORGOT PASSWORD
+router.post("/forgot-password", controller.forgotPassword);
+router.post("/verify-reset-code", controller.verifyResetCode);
+router.post("/reset-password", controller.resetPassword);
+
 
 module.exports = router

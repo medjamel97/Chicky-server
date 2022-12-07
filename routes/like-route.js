@@ -1,9 +1,9 @@
 const express = require("express")
 const router = express.Router()
-const LikeController = require("../controllers/like-controller")
+const controller = require("../controllers/like-controller")
 
 router.route("/")
-    .get(LikeController.getAll)
-    .post(LikeController.addOrRemove)
+    .get(controller.getAll)
+    .post(controller.addOrRemove)
 
 module.exports = router

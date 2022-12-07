@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router()
-const CommentController = require("../controllers/comment-controller")
+const controller = require("../controllers/comment-controller")
 
 router.route("/")
-    .get(CommentController.getAll)
-    .post(CommentController.add)
-    .delete(CommentController.deleteAllComment)
+    .get(controller.getAll)
+    .post(controller.add)
+    .delete(controller.deleteAllComment)
 
 module.exports = router

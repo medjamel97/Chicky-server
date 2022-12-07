@@ -2,61 +2,64 @@ let Message = require("../models/Message")
 let Conversation = require("../models/Conversation")
 
 exports.getAllConversations = async (req, res) => {
-    res.send({ conversations: await Conversation.find() })
+    res.send({conversations: await Conversation.find()})
 }
 
 exports.getAllMessages = async (req, res) => {
-    res.send({ messages: await Message.find() })
+    res.send({messages: await Message.find()})
 }
 
 exports.getMyConversations = async (req, res) => {
-    res.send({ conversations: await Conversation.find({ "sender": req.body.sender }).populate("sender receiver") })
+    res.send({conversations: await Conversation.find({"sender": req.params.senderId}).populate("sender receiver")})
 }
 
 exports.getMyMessages = async (req, res) => {
     res.send({
         messages: await Message.find(
             {
-                $or: [{ 'senderConversation': req.body.conversation }, { 'receiverConversation': req.body.conversation }]
+                $or: [
+                    {'senderConversation': req.params.conversationId},
+                    {'receiverConversation': req.params.conversationId},
+                ]
             }
         ).populate("senderConversation receiverConversation")
     })
 }
 
-exports.creerNouvelleConversation = async (req, res) => {
-    const { sender, receiver } = req.body
+exports.createConversation = async (req, res) => {
+    const {sender, receiver} = req.body
 
-    let senderConversation = await Conversation.findOne({ "sender": sender, "receiver": receiver })
+    let senderConversation = await Conversation.findOne({"sender": sender, "receiver": receiver})
     if (!senderConversation) {
         senderConversation = new Conversation()
         senderConversation.sender = sender
         senderConversation.receiver = receiver
     }
-    senderConversation.lastMessage = "conversation vide"
+    senderConversation.lastMessage = "New conversation"
     senderConversation.lastMessageDate = Date()
     senderConversation.save()
 
-    res.status(200).send({ message: "success" })
+    res.status(200).send({message: "success"})
 }
 
-exports.envoyerMessage = async (req, res) => {
-    const { description, sender, receiver } = req.body
+exports.sendMessage = async (req, res) => {
+    const {description, senderId, receiverId} = req.body
 
-    let senderConversation = await Conversation.findOne({ "sender": sender, "receiver": receiver })
+    let senderConversation = await Conversation.findOne({"sender": senderId, "receiver": receiverId})
     if (!senderConversation) {
         senderConversation = new Conversation()
-        senderConversation.sender = sender
-        senderConversation.receiver = receiver
+        senderConversation.sender = senderId
+        senderConversation.receiver = receiverId
     }
     senderConversation.lastMessage = description
     senderConversation.lastMessageDate = Date()
     senderConversation.save()
 
-    let receiverConversation = await Conversation.findOne({ "sender": receiver, "receiver": sender })
+    let receiverConversation = await Conversation.findOne({"sender": receiverId, "receiver": senderId})
     if (!receiverConversation) {
         receiverConversation = new Conversation()
-        receiverConversation.sender = receiver
-        receiverConversation.receiver = sender
+        receiverConversation.sender = receiverId
+        receiverConversation.receiver = senderId
     }
     receiverConversation.lastMessage = description
     receiverConversation.lastMessageDate = Date()
@@ -66,28 +69,32 @@ exports.envoyerMessage = async (req, res) => {
     newMessage.description = description
     newMessage.senderConversation = senderConversation._id
     newMessage.receiverConversation = receiverConversation._id
-    newMessage.save()
+    await newMessage.save()
 
-    res.status(200).send({ message: "success", newMessage: newMessage })
+    res.status(200).send({message: "success", newMessage: newMessage})
 }
 
 exports.deleteMessage = async (req, res) => {
-    const message = await Message.findById(req.body._id).remove()
-    res.status(200).send({ message: "success", message: message })
+    await Message.findById(req.body._id).remove();
+    res.status(200).send({message: "success"})
 }
 
 exports.deleteConversation = async (req, res) => {
     const conversation = await Conversation.findById(req.body._id).remove()
-    res.status(200).send({ message: "success", conversation })
+    res.status(200).send({message: "success", conversation})
 }
 
 exports.deleteAll = async (req, res) => {
     Conversation.remove({}, function (err) {
-        if (err) { return handleError(res, err) }
+        if (err) {
+            return handleError(res, err)
+        }
     })
     Message.remove({}, function (err) {
-        if (err) { return handleError(res, err) }
+        if (err) {
+            return handleError(res, err)
+        }
     })
 
-    res.status(204).send({ message: "done" })
+    res.status(204).send({message: "done"})
 }

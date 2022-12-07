@@ -24,11 +24,7 @@ exports.addOrUpdate = async (req, res) => {
                 locationName
             },
             {
-                $set: {
-                    date: Date.now(),
-                    longitude,
-                    lattitude,
-                }
+                $set: {date: Date.now(), longitude, lattitude}
             }
         )
 
