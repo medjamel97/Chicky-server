@@ -5,12 +5,14 @@ const express = require("express");
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const morgan = require("morgan")
+const cors = require('cors')
 
 // VARIABLES
 const app = express();
 const port = process.env.PORT || 5000
 
 // MIDDLEWARES
+app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
